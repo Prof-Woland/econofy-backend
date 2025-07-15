@@ -21,14 +21,4 @@ export class createUserDto{
     @IsNotEmpty({message: 'Значение пароля не должно быть пустым'})
     @Length(8, 128, {message:'Значение пароля должно быть в диапазоне от 8 до 128 символов'})
     password: string
-
-    @ApiProperty({
-        title: "Повторный пароль пользователя",
-        description: "Строковое значение от 8 до 128 символов длиной. Должен совпадать с первым паролем",
-        example: "ex@mplep@ssw0rd"
-    })
-    @IsString({message: 'Значение пароля должно быть строкой'})
-    @IsNotEmpty({message: 'Значение пароля не должно быть пустым'})
-    @Length(8, 128, {message:'Значение пароля должно быть в диапазоне от 8 до 128 символов'})
-    secondPassword: string
 }

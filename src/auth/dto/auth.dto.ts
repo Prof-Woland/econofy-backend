@@ -23,3 +23,13 @@ export class AuthUser{
     password: string
 
 }
+
+export class RefreshDto{
+    @ApiProperty({
+            title: "Токен обновления",
+            example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+    })
+    @IsString({message: 'Значение должно быть строкой'})
+    @IsNotEmpty({message: 'Значение не должно быть пустым'})
+    refreshToken: string;
+}

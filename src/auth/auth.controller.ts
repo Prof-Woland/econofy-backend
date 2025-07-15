@@ -1,8 +1,8 @@
-import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
+import { Body, Controller, Headers, HttpCode, HttpStatus, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { createUserDto } from './dto/createUser.dto';
 import { ApiOperation } from '@nestjs/swagger';
-import { AuthUser } from './dto/auth.dto';
+import { AuthUser, RefreshDto } from './dto/auth.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -20,7 +20,7 @@ export class AuthController {
   @ApiOperation({
     summary: "Авторизация"
   })
-  @Post('auth')
+  @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() dto: AuthUser){
     return await this.authService.authorization(dto);
@@ -31,16 +31,7 @@ export class AuthController {
   })
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
-  async refresh(){
-    return this.authService.refresh()
-  }
-
-  @ApiOperation({
-    summary: "Выход из аккаунта"
-  })
-  @Post('logout')
-  @HttpCode(HttpStatus.OK)
-  async logout(){
-    return this.authService.logout()
+  async refresh(@Body() dto: RefreshDto){
+    return this.authService.refresh(dto)
   }
 }
