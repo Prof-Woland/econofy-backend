@@ -157,7 +157,11 @@ const config = {
       },
       {
         "fromEnvVar": null,
-        "value": "rhel-openssl-1.0.x"
+        "value": "rhel-openssl-3.0.x"
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
@@ -184,8 +188,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = \"prisma-client-js\"\n  binaryTargets = [\"native\", \"rhel-openssl-1.0.x\"]\n  output        = \"generated/prisma/client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"POSTGRES_URL\")\n}\n\nmodel User {\n  id String @id @default(uuid())\n\n  login    String @unique()\n  password String\n\n  goals Goal[]\n  plans Plan[]\n\n  createdAt DateTime @default(now()) @map(\"created_at\")\n  updatedAt DateTime @updatedAt @map(\"updated_at\")\n\n  @@map(\"users\")\n}\n\nmodel Goal {\n  id String @id @default(uuid())\n\n  userId String @map(\"user_id\")\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  title String\n\n  createdAt DateTime @default(now()) @map(\"created_at\")\n  updatedAt DateTime @updatedAt @map(\"updated_at\")\n\n  @@map(\"goals\")\n}\n\nmodel Plan {\n  id String @id @default(uuid())\n\n  userId String @map(\"user_id\")\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  title String\n\n  createdAt DateTime @default(now()) @map(\"created_at\")\n  updatedAt DateTime @updatedAt @map(\"updated_at\")\n}\n",
-  "inlineSchemaHash": "8ed3f52d7c0b3196ea536d0b33d7fa9ea99dee247e9fc99b595c282da9434f7c",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = \"prisma-client-js\"\n  binaryTargets = [\"native\", \"rhel-openssl-3.0.x\", \"debian-openssl-3.0.x\"]\n  output        = \"generated/prisma/client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"POSTGRES_URL\")\n}\n\nmodel User {\n  id String @id @default(uuid())\n\n  login    String @unique()\n  password String\n\n  goals Goal[]\n  plans Plan[]\n\n  createdAt DateTime @default(now()) @map(\"created_at\")\n  updatedAt DateTime @updatedAt @map(\"updated_at\")\n\n  @@map(\"users\")\n}\n\nmodel Goal {\n  id String @id @default(uuid())\n\n  userId String @map(\"user_id\")\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  title String\n\n  createdAt DateTime @default(now()) @map(\"created_at\")\n  updatedAt DateTime @updatedAt @map(\"updated_at\")\n\n  @@map(\"goals\")\n}\n\nmodel Plan {\n  id String @id @default(uuid())\n\n  userId String @map(\"user_id\")\n  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)\n\n  title String\n\n  createdAt DateTime @default(now()) @map(\"created_at\")\n  updatedAt DateTime @updatedAt @map(\"updated_at\")\n}\n",
+  "inlineSchemaHash": "7bacdffc69da84468085693654aeb16a893fb9d137cd208f29ef871a731af93d",
   "copyEngine": true
 }
 config.dirname = '/'
