@@ -4,7 +4,6 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { createUserDto } from './dto/createUser.dto';
 import { hash, verify } from 'argon2';
 import { AuthUser, RefreshDto } from './dto/auth.dto';
-import { Request, Response } from 'express';
 import { JwtPayload } from './interfaces/jwtPayload.interface';
 import { JwtService } from '@nestjs/jwt';
 
@@ -73,7 +72,8 @@ export class AuthService {
             throw new UnauthorizedException('Невалидный токен обновления')
         }
         const decodeObject = this.jwtService.decode(refreshT);
-        if(decodeObject.exp >= Date.now()){
+
+        if(decodeObject.exp <= Date.now()/1000){
             throw new UnauthorizedException('Устаревший токен обновления')
         }
         try{
