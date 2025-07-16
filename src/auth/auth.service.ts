@@ -22,6 +22,7 @@ export class AuthService {
 
     async registration(dto: createUserDto) {
         const {login, password} = dto;
+        this.logger.log(`Registration request: ${login}`)
 
         const user = await this.prismaService.user.findUnique({
             where:{
@@ -39,11 +40,13 @@ export class AuthService {
                 password: await hash(password)
             }
         });
+        this.logger.log(`Successful registration: ${login}`)
         return this.generateTokens(newUser.login)
     };
 
     async authorization(dto: AuthUser){
         const {login, password} = dto;
+        this.logger.log(`Authorization request: ${login}`)
 
         const extendUser = await this.prismaService.user.findUnique({
             where: {
@@ -63,12 +66,13 @@ export class AuthService {
         if(!isPasswordTrue){
             throw new NotFoundException('Неверный пароль');
         };
-
+        this.logger.log(`Successful authorization: ${login}`)
         return this.generateTokens(login)
     }
 
     async refresh(dto: RefreshDto){
-        const refreshT = dto.refreshToken
+        const refreshT = dto.refreshToken;
+        this.logger.log(`Refresh request`)
         if(!refreshT || refreshT == null){
             throw new UnauthorizedException('Невалидный токен обновления')
         }
@@ -79,6 +83,7 @@ export class AuthService {
         }
         try{
             const payload = await this.jwtService.verifyAsync(refreshT, {secret: this.JWT_SECRET});
+            this.logger.log(`Successful refresh`);
             return this.generateTokens(payload.login)
         }
         catch(InternalServerErrorException){
