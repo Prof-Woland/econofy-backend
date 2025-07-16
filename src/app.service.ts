@@ -4,8 +4,10 @@ import { Injectable, Logger } from '@nestjs/common';
 @Injectable()
 export class AppService {
   private readonly logger = new Logger(AppService.name)
-  getHello(): string {
+  getHello(){
     this.logger.log("Successful getHello request")
-    return 'Hello World!';
+    return {
+      "text":"Hello World!"
+    }
   }
 }

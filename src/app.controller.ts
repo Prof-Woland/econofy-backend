@@ -9,7 +9,7 @@ export class AppController {
 
   @Get()
   @Authorization()
-  getHello(): string {
+  getHello(){
     return this.appService.getHello();
   }
 }
