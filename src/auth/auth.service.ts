@@ -1,4 +1,4 @@
-import { ConflictException, ImATeapotException, Injectable, InternalServerErrorException, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, ImATeapotException, Injectable, InternalServerErrorException, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { createUserDto } from './dto/createUser.dto';
@@ -6,9 +6,11 @@ import { hash, verify } from 'argon2';
 import { AuthUser, RefreshDto } from './dto/auth.dto';
 import { JwtPayload } from './interfaces/jwtPayload.interface';
 import { JwtService } from '@nestjs/jwt';
+import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 
 @Injectable()
 export class AuthService {
+    private readonly logger = new Logger(AuthService.name)
     private readonly JWT_SECRET: string;
     private readonly JWT_ACCESS_TOKEN_TTL: string;
     private readonly JWT_REFRESH_TOKEN_TTL: string;
@@ -37,7 +39,6 @@ export class AuthService {
                 password: await hash(password)
             }
         });
-
         return this.generateTokens(newUser.login)
     };
 
