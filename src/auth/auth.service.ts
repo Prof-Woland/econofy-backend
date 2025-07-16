@@ -1,6 +1,6 @@
 import { ConflictException, ImATeapotException, Injectable, InternalServerErrorException, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { PrismaService } from 'src/prisma/prisma.service';
+import { PrismaService } from '../prisma/prisma.service';
 import { createUserDto } from './dto/createUser.dto';
 import { hash, verify } from 'argon2';
 import { AuthUser, RefreshDto } from './dto/auth.dto';
@@ -117,7 +117,7 @@ export class AuthService {
 
         const accessToken = this.jwtService.sign(payload, {expiresIn: this.JWT_ACCESS_TOKEN_TTL, secret: this.JWT_SECRET});
         const refreshToken = this.jwtService.sign(payload, {expiresIn: this.JWT_REFRESH_TOKEN_TTL, secret: this.JWT_SECRET});
-
+        this.logger.log(`Successful TOKEN generation`);
         return {
             accessToken,
             refreshToken
