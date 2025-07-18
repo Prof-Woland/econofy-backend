@@ -10,8 +10,8 @@ export class AllLogger implements LoggerService{
         this.consoleLogger.log(message, ctx);
     }
 
-    warn(message: any, ctx: string){
-        this.writeToFile('warn', message, ctx);
+    warn(message: any, ctx: string, trace?: string){
+        this.writeToFile('warn', message, ctx, trace);
         this.consoleLogger.warn(message, ctx);
     }
 

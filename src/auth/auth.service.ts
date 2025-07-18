@@ -82,13 +82,17 @@ export class AuthService {
 
         if(!refreshT || refreshT == null){
             this.logger.warn(`Invalid token`, this.name);
-            throw new UnauthorizedException('Невалидный токен обновления')
+            throw new UnauthorizedException('Невалидный токен обновления');
         }
         const decodeObject = this.jwtService.decode(refreshT);
-
+        
+        if(!decodeObject){
+            this.logger.warn(`Invalid token`, this.name);
+            throw new UnauthorizedException('Невалидный токен обновления');
+        }
         if(decodeObject.exp <= Date.now()/1000){
             this.logger.warn(`Old token`, this.name);
-            throw new UnauthorizedException('Устаревший токен обновления')
+            throw new UnauthorizedException('Устаревший токен обновления');
         };
 
         let payload: JwtPayload;
