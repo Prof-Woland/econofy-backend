@@ -1,11 +1,12 @@
-import { App } from 'supertest/types';
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { AllLogger } from './common/log/logger.log';
 
 @Injectable()
 export class AppService {
-  private readonly logger = new Logger(AppService.name)
+  private readonly name = AppService.name
+  private readonly logger = new AllLogger()
   getHello(){
-    this.logger.log("Successful getHello request")
+    this.logger.log("Successful getHello request", this.name)
     return {
       "text":"Hello World!"
     }

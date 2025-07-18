@@ -6,7 +6,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { ConfigModule } from '@nestjs/config';
 import { GoalModule } from './goal/goal.module';
 import { PlanModule } from './plan/plan.module';
-import { LoggingMiddleware } from './common/logger.middleware';
+import { LoggingMiddleware } from './common/middlewares/logger.middleware';
 
 @Module({
   imports: [ConfigModule.forRoot({
