@@ -1,4 +1,4 @@
-import { ConflictException, ImATeapotException, Injectable, InternalServerErrorException, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { ConflictException, ForbiddenException, ImATeapotException, Injectable, InternalServerErrorException, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
 import { createUserDto } from './dto/createUser.dto';
@@ -29,6 +29,9 @@ export class AuthService {
         const user = await this.prismaService.user.findUnique({
             where:{
                 login
+            },
+            select:{
+                id: true
             }
         });
 
@@ -43,8 +46,17 @@ export class AuthService {
                 password: await hash(password)
             }
         });
+        const tokens = this.generateTokens(newUser.login);
+        await this.prismaService.auth.create({
+            data:{
+                userLogin: login,
+                accessToken: tokens.accessToken,
+                refreshToken: tokens.refreshToken,
+            }
+        })
+        
         this.logger.log(`Successful registration: ${login}`, this.name);
-        return this.generateTokens(newUser.login)
+        return tokens
     };
 
     async authorization(dto: AuthUser){
@@ -71,8 +83,35 @@ export class AuthService {
             this.logger.warn(`False password: ${login}`, this.name);
             throw new NotFoundException('Неверный пароль');
         };
+        const tokens = this.generateTokens(login)
+
+        const exist = await this.prismaService.auth.findUnique({
+            where:{
+                userLogin: login
+            }
+        })
+
+        if(exist){
+            await this.prismaService.auth.update({
+            where:{
+                userLogin: login
+            },
+            data:{
+                ...tokens
+            }
+            })
+        }
+        else{
+            await this.prismaService.auth.create({
+            data:{
+                userLogin: login,
+                accessToken: tokens.accessToken,
+                refreshToken: tokens.refreshToken,
+            }
+            })
+        }
         this.logger.log(`Successful authorization: ${login}`, this.name);
-        return this.generateTokens(login)
+        return tokens
     }
 
     async refresh(dto: RefreshDto){
@@ -101,11 +140,25 @@ export class AuthService {
             throw new UnauthorizedException('Неверный ключ токена обновления');
         }
 
+        const exist = await this.prismaService.auth.findUnique({
+            where:{
+                userLogin: payload.login
+            },
+            select:{
+                refreshToken: true
+            }
+        })
+
+        if(refreshT != exist?.refreshToken){
+            this.logger.log(`Wrong refresh token`, this.name);
+            throw new ForbiddenException('Скомпрометированный токен обновления')
+        }
+
         this.logger.log(`Successful refresh`, this.name);
         return this.generateTokens(payload.login)
     }
 
-    async validate(login: string){
+    async validate(login: string, token: string){
         const user = await this.prismaService.user.findUnique({
             where: {
                 login
@@ -115,10 +168,17 @@ export class AuthService {
         if(!user){
             throw new NotFoundException();
         };
+        const extToken = await this.prismaService.auth.findUnique({
+            where: {
+                userLogin: login
+            },
+        });
 
+        if(extToken?.accessToken != token){
+            throw new ForbiddenException('Скомпрометированный токен доступа')
+        }
         return user
     }
-
 
     private generateTokens(login: string){
         const payload: JwtPayload = {login};
