@@ -23,6 +23,7 @@ model User{
 
   goals Goal[]
   plans Plan[]
+  tokens Auth?
 
   createdAt DateTime @map("created_at") @default(now())
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -54,4 +55,12 @@ model Plan{
 
   createdAt DateTime @map("created_at") @default(now())
   updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model Auth{
+  userLogin String @id @unique @map("user_login")
+  user User @relation(fields: [userLogin], references: [login])
+
+  accessToken String @map("access_token")
+  refreshToken String @map("refresh_token")
 }
