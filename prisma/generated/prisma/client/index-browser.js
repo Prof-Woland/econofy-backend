@@ -144,6 +144,12 @@ exports.Prisma.PlanScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.AuthScalarFieldEnum = {
+  userLogin: 'userLogin',
+  accessToken: 'accessToken',
+  refreshToken: 'refreshToken'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -158,7 +164,8 @@ exports.Prisma.QueryMode = {
 exports.Prisma.ModelName = {
   User: 'User',
   Goal: 'Goal',
-  Plan: 'Plan'
+  Plan: 'Plan',
+  Auth: 'Auth'
 };
 
 /**

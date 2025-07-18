@@ -21,8 +21,9 @@ model User {
   login    String @unique()
   password String
 
-  goals Goal[]
-  plans Plan[]
+  goals  Goal[]
+  plans  Plan[]
+  tokens Auth?
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -54,4 +55,12 @@ model Plan {
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model Auth {
+  userLogin String @id @unique @map("user_login")
+  user      User   @relation(fields: [userLogin], references: [login])
+
+  accessToken  String @map("access_token")
+  refreshToken String @map("refresh_token")
 }

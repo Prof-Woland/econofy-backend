@@ -6,7 +6,7 @@ import { AllLogger } from "../log/logger.log";
 export class LoggingMiddleware implements NestMiddleware{
     private readonly logger = new AllLogger()
     use(req: Request, res: Response, next: NextFunction) {
-        this.logger.log(req.method + ' request: ' + req.url, '')
+        this.logger.log(req.method + ' request: ' + req.url, '');
         next()
     }
 }
