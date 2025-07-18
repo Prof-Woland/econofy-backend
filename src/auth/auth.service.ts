@@ -80,10 +80,6 @@ export class AuthService {
 
         this.logger.log(`Refresh request`, this.name);
 
-        if(!refreshT || refreshT == null){
-            this.logger.warn(`Invalid token`, this.name);
-            throw new UnauthorizedException('Невалидный токен обновления');
-        }
         const decodeObject = this.jwtService.decode(refreshT);
         
         if(!decodeObject){
@@ -96,7 +92,7 @@ export class AuthService {
         };
 
         let payload: JwtPayload;
-
+        
         try{
             payload = await this.jwtService.verifyAsync(refreshT, {secret: this.JWT_SECRET});
         }
