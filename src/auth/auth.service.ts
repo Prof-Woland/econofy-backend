@@ -115,7 +115,8 @@ export class AuthService {
         }
         this.logger.log(`Successful authorization: ${login}`, this.name);
 
-        const avatar = this.getAvatar(login)
+        const avatar = await this.getAvatar(login);
+        this.logger.log(avatar, '')
         return {...tokens, "uri": avatar}
     }
 
@@ -169,7 +170,7 @@ export class AuthService {
             }
             })
 
-        const avatar = this.getAvatar(payload.login)
+        const avatar = await this.getAvatar(payload.login)
         this.logger.log(`Successful refresh`, this.name);
 
         return {...tokens, "uri": avatar}
