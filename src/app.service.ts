@@ -21,6 +21,7 @@ export class AppService {
   async setAvatar(req: Request, dto: AvatarDto){
     const uri = dto.uri;
     const login = this.authService.getUserLogin(req);
+    this.logger.log(`Try to set avatar: ${login}`, this.name)
     if(login){
       const avatar = await this.authService.getAvatar(login);
       if(avatar!=null){
@@ -42,11 +43,13 @@ export class AppService {
       }
     }
 
-    this.logger.log('Successful Avatar Set', this.name)
+    this.logger.log(`Successful set avatar: ${login}`, this.name);
+    return true
   }
 
   async deleteAvatar(req: Request){
     const login = this.authService.getUserLogin(req);
+    this.logger.log(`Try to delete avatar: ${login}`, this.name)
     if(login){
       const avatar = await this.authService.getAvatar(login);
       if(avatar!=null){
@@ -67,5 +70,7 @@ export class AppService {
         })
       }
     }
+    this.logger.log(`Successful delete avatar: ${login}`, this.name);
+    return true
   }
 }

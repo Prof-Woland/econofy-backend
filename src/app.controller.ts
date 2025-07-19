@@ -5,7 +5,7 @@ import { AvatarDto } from './dto/avatar.dto';
 import { Authorized } from './auth/decorators/authorized.decorator';
 import { User } from 'prisma/generated/prisma/client';
 import { Request } from 'express';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiAcceptedResponse, ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 
 @Controller()
 export class AppController {
@@ -20,6 +20,7 @@ export class AppController {
   @ApiOperation({
     summary: "Получение аватара пользователя"
   })
+  @ApiOkResponse({type: 'true'})
   @Post('setAvatar')
   @Authorization()
   @HttpCode(HttpStatus.OK)
@@ -30,6 +31,7 @@ export class AppController {
   @ApiOperation({
     summary: "Удаление аватара пользователя"
   })
+  @ApiOkResponse({type: 'true'})
   @Post('delAvatar')
   @Authorization()
   @HttpCode(HttpStatus.OK)

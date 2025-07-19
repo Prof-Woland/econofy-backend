@@ -1,7 +1,7 @@
 import { Body, Controller, Headers, HttpCode, HttpStatus, Logger, Post } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { UserDto, RefreshDto } from './dto/User.dto';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOkResponse, ApiOperation } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -10,6 +10,7 @@ export class AuthController {
   @ApiOperation({
     summary: "Регистрация"
   })
+  @ApiOkResponse({type: RefreshDto})
   @Post('registration')
   @HttpCode(HttpStatus.CREATED)
   async registration(@Body() dto: UserDto){
@@ -19,6 +20,7 @@ export class AuthController {
   @ApiOperation({
     summary: "Авторизация"
   })
+  @ApiOkResponse({type: RefreshDto})
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() dto: UserDto){
@@ -28,6 +30,7 @@ export class AuthController {
   @ApiOperation({
     summary: "Обновление токенов"
   })
+  @ApiOkResponse({type: RefreshDto})
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
   async refresh(@Body() dto: RefreshDto){
