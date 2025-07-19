@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from './auth.service';
 import { PrismaService } from '../prisma/prisma.service';
-import { createUserDto } from './dto/createUser.dto';
+import { createUserDto } from './dto/User.dto';
 import { RefreshDto } from './dto/auth.dto';
 import { ConflictException, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';

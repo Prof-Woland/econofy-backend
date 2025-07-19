@@ -1,13 +1,13 @@
-import { ConflictException, ForbiddenException, ImATeapotException, Injectable, InternalServerErrorException, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConflictException, ForbiddenException, ImATeapotException, Injectable, InternalServerErrorException, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
-import { createUserDto } from './dto/createUser.dto';
+import { UserDto, RefreshDto } from './dto/User.dto';
 import { hash, verify } from 'argon2';
-import { AuthUser, RefreshDto } from './dto/auth.dto';
 import { JwtPayload } from './interfaces/jwtPayload.interface';
 import { JwtService } from '@nestjs/jwt';
-import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
 import { AllLogger } from 'src/common/log/logger.log';
+import { ExtractJwt } from 'passport-jwt';
+import { Request } from 'express';
 
 @Injectable()
 export class AuthService {
@@ -16,13 +16,16 @@ export class AuthService {
     private readonly JWT_SECRET: string;
     private readonly JWT_ACCESS_TOKEN_TTL: string;
     private readonly JWT_REFRESH_TOKEN_TTL: string;
+    private readonly extractor: (request: Request) => string | null;
     constructor(private readonly configService: ConfigService, private readonly prismaService: PrismaService, private readonly jwtService: JwtService){
         this.JWT_SECRET = this.configService.getOrThrow("JWT_SECRET")
         this.JWT_ACCESS_TOKEN_TTL = this.configService.getOrThrow("JWT_ACCESS_TOKEN_TTL");
         this.JWT_REFRESH_TOKEN_TTL = this.configService.getOrThrow("JWT_REFRESH_TOKEN_TTL");
+        const jwtExtractor = ExtractJwt.fromAuthHeaderAsBearerToken();
+        this.extractor = jwtExtractor;
     }
 
-    async registration(dto: createUserDto) {
+    async registration(dto: UserDto) {
         const {login, password} = dto;
         this.logger.log(`Registration request: ${login}`, this.name);
 
@@ -59,7 +62,7 @@ export class AuthService {
         return tokens
     };
 
-    async authorization(dto: AuthUser){
+    async authorization(dto: UserDto){
         const {login, password} = dto;
         this.logger.log(`Authorization request: ${login}`, this.name);
 
@@ -111,7 +114,9 @@ export class AuthService {
             })
         }
         this.logger.log(`Successful authorization: ${login}`, this.name);
-        return tokens
+
+        const avatar = this.getAvatar(login)
+        return {...tokens, "uri": avatar}
     }
 
     async refresh(dto: RefreshDto){
@@ -154,14 +159,32 @@ export class AuthService {
             throw new ForbiddenException('Скомпрометированный токен обновления')
         }
 
+        const tokens = this.generateTokens(payload.login)
+        await this.prismaService.auth.update({
+            where:{
+                userLogin: payload.login
+            },
+            data:{
+                ...tokens
+            }
+            })
+
+        const avatar = this.getAvatar(payload.login)
         this.logger.log(`Successful refresh`, this.name);
-        return this.generateTokens(payload.login)
+
+        return {...tokens, "uri": avatar}
     }
 
     async validate(login: string, token: string){
         const user = await this.prismaService.user.findUnique({
             where: {
                 login
+            },
+            select:{
+                id: true,
+                goals: true,
+                plans: true,
+                avatar: true,
             }
         });
 
@@ -178,6 +201,30 @@ export class AuthService {
             throw new ForbiddenException('Скомпрометированный токен доступа')
         }
         return user
+    }
+
+    async getAvatar(login: string) {
+        const avatar = await this.prismaService.avatar.findUnique({
+            where:{
+                userLogin: login
+            },
+            select:{
+                avatarPath: true,
+            }
+        })
+
+        if(!avatar){
+            return null
+        }
+        return avatar.avatarPath
+    }
+
+    public getUserLogin(req: Request){
+        const token = this.extractor(req);
+        if(token){
+            const payload: JwtPayload = this.jwtService.decode(token);
+            return payload.login
+        }
     }
 
     private generateTokens(login: string){

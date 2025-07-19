@@ -150,6 +150,13 @@ exports.Prisma.AuthScalarFieldEnum = {
   refreshToken: 'refreshToken'
 };
 
+exports.Prisma.AvatarScalarFieldEnum = {
+  userLogin: 'userLogin',
+  avatarPath: 'avatarPath',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -165,7 +172,8 @@ exports.Prisma.ModelName = {
   User: 'User',
   Goal: 'Goal',
   Plan: 'Plan',
-  Auth: 'Auth'
+  Auth: 'Auth',
+  Avatar: 'Avatar'
 };
 
 /**

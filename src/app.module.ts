@@ -7,6 +7,8 @@ import { ConfigModule } from '@nestjs/config';
 import { GoalModule } from './goal/goal.module';
 import { PlanModule } from './plan/plan.module';
 import { LoggingMiddleware } from './common/middlewares/logger.middleware';
+import { AuthService } from './auth/auth.service';
+import { PrismaService } from './prisma/prisma.service';
 
 @Module({
   imports: [ConfigModule.forRoot({

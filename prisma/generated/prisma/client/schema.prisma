@@ -24,6 +24,7 @@ model User {
   goals  Goal[]
   plans  Plan[]
   tokens Auth?
+  avatar Avatar?
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -63,4 +64,14 @@ model Auth {
 
   accessToken  String @map("access_token")
   refreshToken String @map("refresh_token")
+}
+
+model Avatar {
+  userLogin String @id @unique @map("user_login")
+  user      User   @relation(fields: [userLogin], references: [login])
+
+  avatarPath String
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 }
