@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AllLogger } from 'src/common/log/logger.log';
 import { ExtractJwt } from 'passport-jwt';
 import { Request } from 'express';
+import { User } from 'prisma/generated/prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -71,7 +72,8 @@ export class AuthService {
                 login
             },
             select:{
-                password: true
+                password: true,
+                id: true
             }
         });
 
@@ -115,11 +117,11 @@ export class AuthService {
         }
         this.logger.log(`Successful authorization: ${login}`, this.name);
 
-        const avatar = await this.getAvatar(login);
+        const avatar = await this.getAvatar(extendUser.id);
         return {...tokens, "uri": avatar?.toString()}
     }
 
-    async refresh(dto: RefreshDto){
+    async refresh(dto: RefreshDto, user: User){
         const refreshT = dto.refreshToken;
 
         this.logger.log(`Refresh request`, this.name);
@@ -169,7 +171,7 @@ export class AuthService {
             }
             })
 
-        const avatar = await this.getAvatar(payload.login)
+        const avatar = await this.getAvatar(user.id)
         this.logger.log(`Successful refresh`, this.name);
 
         return {...tokens, "uri": avatar?.toString()}
@@ -204,6 +206,7 @@ export class AuthService {
     }
 
     async getAvatar(id: string) {
+        console.log(id)
         const avatar = await this.prismaService.avatar.findUnique({
             where:{
                 userId: id
