@@ -16,7 +16,7 @@ datasource db {
 }
 
 model User{
-  id String @id @default(uuid())
+  id String @id @unique @default(uuid())
 
   login String @unique()
   password String
@@ -33,12 +33,15 @@ model User{
 }
 
 model Goal{
-  id String @id @default(uuid())
+  id String @id @unique @default(uuid())
 
   userId String @map("user_id")
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   title String
+  date String
+  savedMoney Int @default(0) @map("saved_money")
+  allMoney Int @map("all_money")
 
   createdAt DateTime @map("created_at") @default(now())
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -47,9 +50,9 @@ model Goal{
 }
 
 model Plan{
-  id String @id @default(uuid())
+  id String @id @unique @default(uuid())
 
-  userId String @map("user_id")
+  userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   title String

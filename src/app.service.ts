@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 import { AllLogger } from './common/log/logger.log';
 import { AvatarDto } from './dto/avatar.dto';
 import { AuthService } from './auth/auth.service';
-import { Request } from 'express';
+import { User } from 'prisma/generated/prisma/client';
 
 @Injectable()
 export class AppService {
@@ -18,9 +18,9 @@ export class AppService {
     }
   }
 
-  async setAvatar(req: Request, dto: AvatarDto){
+  async setAvatar(user: User, dto: AvatarDto){
     const uri = dto.uri;
-    const login = this.authService.getUserLogin(req);
+    const login = user.login;
     this.logger.log(`Try to set avatar: ${login}`, this.name)
     if(login){
       const avatar = await this.authService.getAvatar(login);
@@ -47,8 +47,8 @@ export class AppService {
     return true
   }
 
-  async deleteAvatar(req: Request){
-    const login = this.authService.getUserLogin(req);
+  async deleteAvatar(user: User){
+    const login = user.login;
     this.logger.log(`Try to delete avatar: ${login}`, this.name)
     if(login){
       const avatar = await this.authService.getAvatar(login);

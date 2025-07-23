@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "goals" ALTER COLUMN "date" SET DATA TYPE TEXT;

@@ -2422,14 +2422,29 @@ export namespace Prisma {
 
   export type AggregateGoal = {
     _count: GoalCountAggregateOutputType | null
+    _avg: GoalAvgAggregateOutputType | null
+    _sum: GoalSumAggregateOutputType | null
     _min: GoalMinAggregateOutputType | null
     _max: GoalMaxAggregateOutputType | null
+  }
+
+  export type GoalAvgAggregateOutputType = {
+    savedMoney: number | null
+    allMoney: number | null
+  }
+
+  export type GoalSumAggregateOutputType = {
+    savedMoney: number | null
+    allMoney: number | null
   }
 
   export type GoalMinAggregateOutputType = {
     id: string | null
     userId: string | null
     title: string | null
+    date: string | null
+    savedMoney: number | null
+    allMoney: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2438,6 +2453,9 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     title: string | null
+    date: string | null
+    savedMoney: number | null
+    allMoney: number | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -2446,16 +2464,32 @@ export namespace Prisma {
     id: number
     userId: number
     title: number
+    date: number
+    savedMoney: number
+    allMoney: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
 
+  export type GoalAvgAggregateInputType = {
+    savedMoney?: true
+    allMoney?: true
+  }
+
+  export type GoalSumAggregateInputType = {
+    savedMoney?: true
+    allMoney?: true
+  }
+
   export type GoalMinAggregateInputType = {
     id?: true
     userId?: true
     title?: true
+    date?: true
+    savedMoney?: true
+    allMoney?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2464,6 +2498,9 @@ export namespace Prisma {
     id?: true
     userId?: true
     title?: true
+    date?: true
+    savedMoney?: true
+    allMoney?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -2472,6 +2509,9 @@ export namespace Prisma {
     id?: true
     userId?: true
     title?: true
+    date?: true
+    savedMoney?: true
+    allMoney?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -2515,6 +2555,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: GoalAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: GoalSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: GoalMinAggregateInputType
@@ -2545,6 +2597,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: GoalCountAggregateInputType | true
+    _avg?: GoalAvgAggregateInputType
+    _sum?: GoalSumAggregateInputType
     _min?: GoalMinAggregateInputType
     _max?: GoalMaxAggregateInputType
   }
@@ -2553,9 +2607,14 @@ export namespace Prisma {
     id: string
     userId: string
     title: string
+    date: string
+    savedMoney: number
+    allMoney: number
     createdAt: Date
     updatedAt: Date
     _count: GoalCountAggregateOutputType | null
+    _avg: GoalAvgAggregateOutputType | null
+    _sum: GoalSumAggregateOutputType | null
     _min: GoalMinAggregateOutputType | null
     _max: GoalMaxAggregateOutputType | null
   }
@@ -2578,6 +2637,9 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     title?: boolean
+    date?: boolean
+    savedMoney?: boolean
+    allMoney?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -2587,6 +2649,9 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     title?: boolean
+    date?: boolean
+    savedMoney?: boolean
+    allMoney?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -2596,6 +2661,9 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     title?: boolean
+    date?: boolean
+    savedMoney?: boolean
+    allMoney?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -2605,11 +2673,14 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     title?: boolean
+    date?: boolean
+    savedMoney?: boolean
+    allMoney?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type GoalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "title" | "createdAt" | "updatedAt", ExtArgs["result"]["goal"]>
+  export type GoalOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "title" | "date" | "savedMoney" | "allMoney" | "createdAt" | "updatedAt", ExtArgs["result"]["goal"]>
   export type GoalInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -2629,6 +2700,9 @@ export namespace Prisma {
       id: string
       userId: string
       title: string
+      date: string
+      savedMoney: number
+      allMoney: number
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["goal"]>
@@ -3058,6 +3132,9 @@ export namespace Prisma {
     readonly id: FieldRef<"Goal", 'String'>
     readonly userId: FieldRef<"Goal", 'String'>
     readonly title: FieldRef<"Goal", 'String'>
+    readonly date: FieldRef<"Goal", 'String'>
+    readonly savedMoney: FieldRef<"Goal", 'Int'>
+    readonly allMoney: FieldRef<"Goal", 'Int'>
     readonly createdAt: FieldRef<"Goal", 'DateTime'>
     readonly updatedAt: FieldRef<"Goal", 'DateTime'>
   }
@@ -6638,6 +6715,9 @@ export namespace Prisma {
     id: 'id',
     userId: 'userId',
     title: 'title',
+    date: 'date',
+    savedMoney: 'savedMoney',
+    allMoney: 'allMoney',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -6736,6 +6816,20 @@ export namespace Prisma {
    */
   export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
   /**
    * Deep Input Types
    */
@@ -6781,7 +6875,7 @@ export namespace Prisma {
     plans?: PlanListRelationFilter
     tokens?: XOR<AuthNullableScalarRelationFilter, AuthWhereInput> | null
     avatar?: XOR<AvatarNullableScalarRelationFilter, AvatarWhereInput> | null
-  }, "id" | "login">
+  }, "id" | "id" | "login">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
@@ -6812,6 +6906,9 @@ export namespace Prisma {
     id?: StringFilter<"Goal"> | string
     userId?: StringFilter<"Goal"> | string
     title?: StringFilter<"Goal"> | string
+    date?: StringFilter<"Goal"> | string
+    savedMoney?: IntFilter<"Goal"> | number
+    allMoney?: IntFilter<"Goal"> | number
     createdAt?: DateTimeFilter<"Goal"> | Date | string
     updatedAt?: DateTimeFilter<"Goal"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -6821,6 +6918,9 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     title?: SortOrder
+    date?: SortOrder
+    savedMoney?: SortOrder
+    allMoney?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -6833,20 +6933,28 @@ export namespace Prisma {
     NOT?: GoalWhereInput | GoalWhereInput[]
     userId?: StringFilter<"Goal"> | string
     title?: StringFilter<"Goal"> | string
+    date?: StringFilter<"Goal"> | string
+    savedMoney?: IntFilter<"Goal"> | number
+    allMoney?: IntFilter<"Goal"> | number
     createdAt?: DateTimeFilter<"Goal"> | Date | string
     updatedAt?: DateTimeFilter<"Goal"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id">
+  }, "id" | "id">
 
   export type GoalOrderByWithAggregationInput = {
     id?: SortOrder
     userId?: SortOrder
     title?: SortOrder
+    date?: SortOrder
+    savedMoney?: SortOrder
+    allMoney?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: GoalCountOrderByAggregateInput
+    _avg?: GoalAvgOrderByAggregateInput
     _max?: GoalMaxOrderByAggregateInput
     _min?: GoalMinOrderByAggregateInput
+    _sum?: GoalSumOrderByAggregateInput
   }
 
   export type GoalScalarWhereWithAggregatesInput = {
@@ -6856,6 +6964,9 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Goal"> | string
     userId?: StringWithAggregatesFilter<"Goal"> | string
     title?: StringWithAggregatesFilter<"Goal"> | string
+    date?: StringWithAggregatesFilter<"Goal"> | string
+    savedMoney?: IntWithAggregatesFilter<"Goal"> | number
+    allMoney?: IntWithAggregatesFilter<"Goal"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Goal"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Goal"> | Date | string
   }
@@ -6891,7 +7002,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Plan"> | Date | string
     updatedAt?: DateTimeFilter<"Plan"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "id">
+  }, "id" | "id">
 
   export type PlanOrderByWithAggregationInput = {
     id?: SortOrder
@@ -7085,6 +7196,9 @@ export namespace Prisma {
   export type GoalCreateInput = {
     id?: string
     title: string
+    date: string
+    savedMoney?: number
+    allMoney: number
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutGoalsInput
@@ -7094,6 +7208,9 @@ export namespace Prisma {
     id?: string
     userId: string
     title: string
+    date: string
+    savedMoney?: number
+    allMoney: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -7101,6 +7218,9 @@ export namespace Prisma {
   export type GoalUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    savedMoney?: IntFieldUpdateOperationsInput | number
+    allMoney?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutGoalsNestedInput
@@ -7110,6 +7230,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    savedMoney?: IntFieldUpdateOperationsInput | number
+    allMoney?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7118,6 +7241,9 @@ export namespace Prisma {
     id?: string
     userId: string
     title: string
+    date: string
+    savedMoney?: number
+    allMoney: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -7125,6 +7251,9 @@ export namespace Prisma {
   export type GoalUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    savedMoney?: IntFieldUpdateOperationsInput | number
+    allMoney?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7133,6 +7262,9 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    savedMoney?: IntFieldUpdateOperationsInput | number
+    allMoney?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7393,6 +7525,17 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
   export type UserScalarRelationFilter = {
     is?: UserWhereInput
     isNot?: UserWhereInput
@@ -7402,14 +7545,25 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     title?: SortOrder
+    date?: SortOrder
+    savedMoney?: SortOrder
+    allMoney?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type GoalAvgOrderByAggregateInput = {
+    savedMoney?: SortOrder
+    allMoney?: SortOrder
   }
 
   export type GoalMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     title?: SortOrder
+    date?: SortOrder
+    savedMoney?: SortOrder
+    allMoney?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -7418,8 +7572,32 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     title?: SortOrder
+    date?: SortOrder
+    savedMoney?: SortOrder
+    allMoney?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type GoalSumOrderByAggregateInput = {
+    savedMoney?: SortOrder
+    allMoney?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type PlanCountOrderByAggregateInput = {
@@ -7647,6 +7825,14 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
   export type UserUpdateOneRequiredWithoutGoalsNestedInput = {
     create?: XOR<UserCreateWithoutGoalsInput, UserUncheckedCreateWithoutGoalsInput>
     connectOrCreate?: UserCreateOrConnectWithoutGoalsInput
@@ -7764,9 +7950,39 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
   export type GoalCreateWithoutUserInput = {
     id?: string
     title: string
+    date: string
+    savedMoney?: number
+    allMoney: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -7774,6 +7990,9 @@ export namespace Prisma {
   export type GoalUncheckedCreateWithoutUserInput = {
     id?: string
     title: string
+    date: string
+    savedMoney?: number
+    allMoney: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -7867,6 +8086,9 @@ export namespace Prisma {
     id?: StringFilter<"Goal"> | string
     userId?: StringFilter<"Goal"> | string
     title?: StringFilter<"Goal"> | string
+    date?: StringFilter<"Goal"> | string
+    savedMoney?: IntFilter<"Goal"> | number
+    allMoney?: IntFilter<"Goal"> | number
     createdAt?: DateTimeFilter<"Goal"> | Date | string
     updatedAt?: DateTimeFilter<"Goal"> | Date | string
   }
@@ -8185,6 +8407,9 @@ export namespace Prisma {
   export type GoalCreateManyUserInput = {
     id?: string
     title: string
+    date: string
+    savedMoney?: number
+    allMoney: number
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -8199,6 +8424,9 @@ export namespace Prisma {
   export type GoalUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    savedMoney?: IntFieldUpdateOperationsInput | number
+    allMoney?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8206,6 +8434,9 @@ export namespace Prisma {
   export type GoalUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    savedMoney?: IntFieldUpdateOperationsInput | number
+    allMoney?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8213,6 +8444,9 @@ export namespace Prisma {
   export type GoalUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    savedMoney?: IntFieldUpdateOperationsInput | number
+    allMoney?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

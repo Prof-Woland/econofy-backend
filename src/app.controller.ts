@@ -24,8 +24,8 @@ export class AppController {
   @Post('setAvatar')
   @Authorization()
   @HttpCode(HttpStatus.OK)
-  async setAvatar(@Req() req: Request, @Body() dto: AvatarDto){
-    return await this.appService.setAvatar(req, dto);
+  async setAvatar(@Authorized() user: User, @Body() dto: AvatarDto){
+    return await this.appService.setAvatar(user, dto);
   }
 
   @ApiOperation({
@@ -35,7 +35,7 @@ export class AppController {
   @Post('delAvatar')
   @Authorization()
   @HttpCode(HttpStatus.OK)
-  async delAvatar(@Req() req: Request){
-    return await this.appService.deleteAvatar(req);
+  async delAvatar(@Authorized() user: User){
+    return await this.appService.deleteAvatar(user);
   }
 }

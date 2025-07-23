@@ -35,10 +35,13 @@ model User {
 model Goal {
   id String @id @default(uuid())
 
-  userId String @map("user_id")
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userLogin String
+  user      User   @relation(fields: [userLogin], references: [login], onDelete: Cascade)
 
-  title String
+  title      String
+  date       DateTime
+  savedMoney Int      @default(0) @map("saved_money")
+  allMoney   Int      @map("all_money")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -49,8 +52,8 @@ model Goal {
 model Plan {
   id String @id @default(uuid())
 
-  userId String @map("user_id")
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userLogin String
+  user      User   @relation(fields: [userLogin], references: [login], onDelete: Cascade)
 
   title String
 

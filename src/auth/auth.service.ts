@@ -219,14 +219,6 @@ export class AuthService {
         return avatar.avatarPath
     }
 
-    public getUserLogin(req: Request){
-        const token = this.extractor(req);
-        if(token){
-            const payload: JwtPayload = this.jwtService.decode(token);
-            return payload.login
-        }
-    }
-
     private generateTokens(login: string){
         const payload: JwtPayload = {login};
 
