@@ -61,11 +61,10 @@ export class GoalService {
 
     async update(user: User, dto: UpdateGoalDto){
         this.logger.log(`Try to update goal: ${user.id}`, this.name)
-        const {title, savedMoney} = dto
-        const exist = await this.prismaService.goal.findFirst({
+        const {id, savedMoney} = dto
+        const exist = await this.prismaService.goal.findUnique({
             where:{
-                userId: user.id,
-                title
+                id
             }
         })
 
@@ -76,10 +75,9 @@ export class GoalService {
 
         const newValue = exist.savedMoney + savedMoney
 
-        const update = await this.prismaService.goal.updateMany({
+        const update = await this.prismaService.goal.update({
             where:{
-                userId: user.id,
-                title
+                id
             },
             data:{
                 savedMoney: newValue
@@ -92,15 +90,14 @@ export class GoalService {
 
     async delete(user: User, dto: DeleteDto){
         this.logger.log(`Try to delete goal: ${user.id}`, this.name)
-        const title = dto.title
-        if(!await this.prismaService.goal.findFirst({where:{userId: user.id, title}})){
+        const id = dto.id
+        if(!await this.prismaService.goal.findUnique({where:{id}})){
             this.logger.warn('This goal not found', this.name)
             throw new NotFoundException(`Цель с таким названием не найдена! ${user.id}`)
         }
-        await this.prismaService.goal.deleteMany({
+        await this.prismaService.goal.delete({
             where:{
-                userId: user.id,
-                title
+                id
             }
         })
 

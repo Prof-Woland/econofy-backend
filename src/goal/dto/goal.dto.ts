@@ -34,14 +34,13 @@ export class GoalDto{
 
 export class UpdateGoalDto{
     @ApiProperty({
-        title: "Название цели",
-        description: "Строковое значение от 2 до 50 символов длиной",
-        example: "myGoal"
+        title: "ID цели",
+        description: "Строковое значение",
+        example: "uuid4"
     })
     @IsNotEmpty()
     @IsString()
-    @Length(2, 50)
-    title: string;
+    id: string;
 
     @ApiProperty({
         title: "Количество накопленных денег",
@@ -55,18 +54,17 @@ export class UpdateGoalDto{
 
 export class DeleteDto{
     @ApiProperty({
-        title: "Название цели",
-        description: "Строковое значение от 2 до 50 символов длиной",
-        example: "myGoal"
+        title: "ID цели",
+        description: "Строковое значение",
+        example: "uuid4"
     })
     @IsNotEmpty()
     @IsString()
-    @Length(2, 50)
-    title: string;
+    id: string;
 }
 
 export class ExampeDto{
-     @ApiProperty({
+    @ApiProperty({
         title: "Название цели",
         description: "Строковое значение от 2 до 50 символов длиной",
         example: "myGoal"
