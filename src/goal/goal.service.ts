@@ -17,6 +17,7 @@ export class GoalService {
                 userId: user.id
             },
             select:{
+                id: true,
                 title: true,
                 date: true,
                 savedMoney: true,

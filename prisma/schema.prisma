@@ -70,8 +70,9 @@ model Auth{
 }
 
 model Avatar{
-  userLogin String @id @unique @map("user_login")
-  user User @relation(fields: [userLogin], references: [login])
+  id String @id @unique @default(uuid())
+  userId String @unique @map("user_id")
+  user User @relation(fields: [userId], references: [id])
 
   avatarPath String
 

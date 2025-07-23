@@ -5652,21 +5652,24 @@ export namespace Prisma {
   }
 
   export type AvatarMinAggregateOutputType = {
-    userLogin: string | null
+    id: string | null
+    userId: string | null
     avatarPath: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type AvatarMaxAggregateOutputType = {
-    userLogin: string | null
+    id: string | null
+    userId: string | null
     avatarPath: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
 
   export type AvatarCountAggregateOutputType = {
-    userLogin: number
+    id: number
+    userId: number
     avatarPath: number
     createdAt: number
     updatedAt: number
@@ -5675,21 +5678,24 @@ export namespace Prisma {
 
 
   export type AvatarMinAggregateInputType = {
-    userLogin?: true
+    id?: true
+    userId?: true
     avatarPath?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type AvatarMaxAggregateInputType = {
-    userLogin?: true
+    id?: true
+    userId?: true
     avatarPath?: true
     createdAt?: true
     updatedAt?: true
   }
 
   export type AvatarCountAggregateInputType = {
-    userLogin?: true
+    id?: true
+    userId?: true
     avatarPath?: true
     createdAt?: true
     updatedAt?: true
@@ -5769,7 +5775,8 @@ export namespace Prisma {
   }
 
   export type AvatarGroupByOutputType = {
-    userLogin: string
+    id: string
+    userId: string
     avatarPath: string
     createdAt: Date
     updatedAt: Date
@@ -5793,7 +5800,8 @@ export namespace Prisma {
 
 
   export type AvatarSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    userLogin?: boolean
+    id?: boolean
+    userId?: boolean
     avatarPath?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -5801,7 +5809,8 @@ export namespace Prisma {
   }, ExtArgs["result"]["avatar"]>
 
   export type AvatarSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    userLogin?: boolean
+    id?: boolean
+    userId?: boolean
     avatarPath?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -5809,7 +5818,8 @@ export namespace Prisma {
   }, ExtArgs["result"]["avatar"]>
 
   export type AvatarSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    userLogin?: boolean
+    id?: boolean
+    userId?: boolean
     avatarPath?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -5817,13 +5827,14 @@ export namespace Prisma {
   }, ExtArgs["result"]["avatar"]>
 
   export type AvatarSelectScalar = {
-    userLogin?: boolean
+    id?: boolean
+    userId?: boolean
     avatarPath?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type AvatarOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userLogin" | "avatarPath" | "createdAt" | "updatedAt", ExtArgs["result"]["avatar"]>
+  export type AvatarOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "avatarPath" | "createdAt" | "updatedAt", ExtArgs["result"]["avatar"]>
   export type AvatarInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -5840,7 +5851,8 @@ export namespace Prisma {
       user: Prisma.$UserPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
-      userLogin: string
+      id: string
+      userId: string
       avatarPath: string
       createdAt: Date
       updatedAt: Date
@@ -5927,8 +5939,8 @@ export namespace Prisma {
      * // Get first 10 Avatars
      * const avatars = await prisma.avatar.findMany({ take: 10 })
      * 
-     * // Only select the `userLogin`
-     * const avatarWithUserLoginOnly = await prisma.avatar.findMany({ select: { userLogin: true } })
+     * // Only select the `id`
+     * const avatarWithIdOnly = await prisma.avatar.findMany({ select: { id: true } })
      * 
      */
     findMany<T extends AvatarFindManyArgs>(args?: SelectSubset<T, AvatarFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AvatarPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -5972,9 +5984,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Create many Avatars and only return the `userLogin`
-     * const avatarWithUserLoginOnly = await prisma.avatar.createManyAndReturn({
-     *   select: { userLogin: true },
+     * // Create many Avatars and only return the `id`
+     * const avatarWithIdOnly = await prisma.avatar.createManyAndReturn({
+     *   select: { id: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -6063,9 +6075,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Avatars and only return the `userLogin`
-     * const avatarWithUserLoginOnly = await prisma.avatar.updateManyAndReturn({
-     *   select: { userLogin: true },
+     * // Update zero or more Avatars and only return the `id`
+     * const avatarWithIdOnly = await prisma.avatar.updateManyAndReturn({
+     *   select: { id: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -6268,7 +6280,8 @@ export namespace Prisma {
    * Fields of the Avatar model
    */
   interface AvatarFieldRefs {
-    readonly userLogin: FieldRef<"Avatar", 'String'>
+    readonly id: FieldRef<"Avatar", 'String'>
+    readonly userId: FieldRef<"Avatar", 'String'>
     readonly avatarPath: FieldRef<"Avatar", 'String'>
     readonly createdAt: FieldRef<"Avatar", 'DateTime'>
     readonly updatedAt: FieldRef<"Avatar", 'DateTime'>
@@ -6746,7 +6759,8 @@ export namespace Prisma {
 
 
   export const AvatarScalarFieldEnum: {
-    userLogin: 'userLogin',
+    id: 'id',
+    userId: 'userId',
     avatarPath: 'avatarPath',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -7075,7 +7089,8 @@ export namespace Prisma {
     AND?: AvatarWhereInput | AvatarWhereInput[]
     OR?: AvatarWhereInput[]
     NOT?: AvatarWhereInput | AvatarWhereInput[]
-    userLogin?: StringFilter<"Avatar"> | string
+    id?: StringFilter<"Avatar"> | string
+    userId?: StringFilter<"Avatar"> | string
     avatarPath?: StringFilter<"Avatar"> | string
     createdAt?: DateTimeFilter<"Avatar"> | Date | string
     updatedAt?: DateTimeFilter<"Avatar"> | Date | string
@@ -7083,7 +7098,8 @@ export namespace Prisma {
   }
 
   export type AvatarOrderByWithRelationInput = {
-    userLogin?: SortOrder
+    id?: SortOrder
+    userId?: SortOrder
     avatarPath?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -7091,7 +7107,8 @@ export namespace Prisma {
   }
 
   export type AvatarWhereUniqueInput = Prisma.AtLeast<{
-    userLogin?: string
+    id?: string
+    userId?: string
     AND?: AvatarWhereInput | AvatarWhereInput[]
     OR?: AvatarWhereInput[]
     NOT?: AvatarWhereInput | AvatarWhereInput[]
@@ -7099,10 +7116,11 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Avatar"> | Date | string
     updatedAt?: DateTimeFilter<"Avatar"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
-  }, "userLogin" | "userLogin">
+  }, "id" | "id" | "userId">
 
   export type AvatarOrderByWithAggregationInput = {
-    userLogin?: SortOrder
+    id?: SortOrder
+    userId?: SortOrder
     avatarPath?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -7115,7 +7133,8 @@ export namespace Prisma {
     AND?: AvatarScalarWhereWithAggregatesInput | AvatarScalarWhereWithAggregatesInput[]
     OR?: AvatarScalarWhereWithAggregatesInput[]
     NOT?: AvatarScalarWhereWithAggregatesInput | AvatarScalarWhereWithAggregatesInput[]
-    userLogin?: StringWithAggregatesFilter<"Avatar"> | string
+    id?: StringWithAggregatesFilter<"Avatar"> | string
+    userId?: StringWithAggregatesFilter<"Avatar"> | string
     avatarPath?: StringWithAggregatesFilter<"Avatar"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Avatar"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Avatar"> | Date | string
@@ -7366,6 +7385,7 @@ export namespace Prisma {
   }
 
   export type AvatarCreateInput = {
+    id?: string
     avatarPath: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -7373,13 +7393,15 @@ export namespace Prisma {
   }
 
   export type AvatarUncheckedCreateInput = {
-    userLogin: string
+    id?: string
+    userId: string
     avatarPath: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type AvatarUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
     avatarPath?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7387,27 +7409,31 @@ export namespace Prisma {
   }
 
   export type AvatarUncheckedUpdateInput = {
-    userLogin?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     avatarPath?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AvatarCreateManyInput = {
-    userLogin: string
+    id?: string
+    userId: string
     avatarPath: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type AvatarUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
     avatarPath?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AvatarUncheckedUpdateManyInput = {
-    userLogin?: StringFieldUpdateOperationsInput | string
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
     avatarPath?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -7643,21 +7669,24 @@ export namespace Prisma {
   }
 
   export type AvatarCountOrderByAggregateInput = {
-    userLogin?: SortOrder
+    id?: SortOrder
+    userId?: SortOrder
     avatarPath?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type AvatarMaxOrderByAggregateInput = {
-    userLogin?: SortOrder
+    id?: SortOrder
+    userId?: SortOrder
     avatarPath?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
 
   export type AvatarMinOrderByAggregateInput = {
-    userLogin?: SortOrder
+    id?: SortOrder
+    userId?: SortOrder
     avatarPath?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -8047,12 +8076,14 @@ export namespace Prisma {
   }
 
   export type AvatarCreateWithoutUserInput = {
+    id?: string
     avatarPath: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type AvatarUncheckedCreateWithoutUserInput = {
+    id?: string
     avatarPath: string
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -8153,12 +8184,14 @@ export namespace Prisma {
   }
 
   export type AvatarUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
     avatarPath?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type AvatarUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
     avatarPath?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string

@@ -154,7 +154,8 @@ exports.Prisma.AuthScalarFieldEnum = {
 };
 
 exports.Prisma.AvatarScalarFieldEnum = {
-  userLogin: 'userLogin',
+  id: 'id',
+  userId: 'userId',
   avatarPath: 'avatarPath',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'

@@ -203,10 +203,10 @@ export class AuthService {
         return user
     }
 
-    async getAvatar(login: string) {
+    async getAvatar(id: string) {
         const avatar = await this.prismaService.avatar.findUnique({
             where:{
-                userLogin: login
+                userId: id
             },
             select:{
                 avatarPath: true,

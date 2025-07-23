@@ -1,5 +1,5 @@
 import { PrismaService } from './prisma/prisma.service';
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { AllLogger } from './common/log/logger.log';
 import { AvatarDto } from './dto/avatar.dto';
 import { AuthService } from './auth/auth.service';
@@ -20,14 +20,23 @@ export class AppService {
 
   async setAvatar(user: User, dto: AvatarDto){
     const uri = dto.uri;
-    const login = user.login;
-    this.logger.log(`Try to set avatar: ${login}`, this.name)
-    if(login){
-      const avatar = await this.authService.getAvatar(login);
+    const id = user.id;
+    this.logger.log(`Try to set avatar: ${id}`, this.name)
+    if(id){
+      const user = await this.prismaService.user.findUnique({
+        where:{
+          id
+        }
+      })
+      if(!user){
+        this.logger.log(`User not found: ${id}`, this.name)
+        throw new NotFoundException('Пользователь с таким ID не найден!')
+      }
+      const avatar = await this.authService.getAvatar(id);
       if(avatar!=null){
         await this.prismaService.avatar.update({
           where:{
-            userLogin: login,
+            userId: id,
           },
           data:{
             avatarPath: uri
@@ -36,26 +45,26 @@ export class AppService {
       }else{
         await this.prismaService.avatar.create({
           data:{
-            userLogin: login,
+            userId: id,
             avatarPath: uri
           }
         })
       }
     }
 
-    this.logger.log(`Successful set avatar: ${login}`, this.name);
+    this.logger.log(`Successful set avatar: ${id}`, this.name);
     return true
   }
 
   async deleteAvatar(user: User){
-    const login = user.login;
-    this.logger.log(`Try to delete avatar: ${login}`, this.name)
-    if(login){
-      const avatar = await this.authService.getAvatar(login);
+    const id = user.id;
+    this.logger.log(`Try to delete avatar: ${id}`, this.name)
+    if(id){
+      const avatar = await this.authService.getAvatar(id);
       if(avatar!=null){
         await this.prismaService.avatar.update({
           where:{
-            userLogin: login,
+            userId: id,
           },
           data:{
             avatarPath: ''
@@ -64,13 +73,15 @@ export class AppService {
       }else{
         await this.prismaService.avatar.create({
           data:{
-            userLogin: login,
+            userId: id,
             avatarPath: ''
           }
         })
       }
     }
-    this.logger.log(`Successful delete avatar: ${login}`, this.name);
+    this.logger.log(`Successful delete avatar: ${id}}`, this.name);
     return true
+    // await this.prismaService.avatar.deleteMany()
+    // return await this.prismaService.avatar.findMany()
   }
 }
