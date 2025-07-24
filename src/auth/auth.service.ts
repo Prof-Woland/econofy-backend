@@ -206,7 +206,6 @@ export class AuthService {
     }
 
     async getAvatar(id: string) {
-        console.log(id)
         const avatar = await this.prismaService.avatar.findUnique({
             where:{
                 userId: id

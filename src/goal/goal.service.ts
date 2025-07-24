@@ -71,7 +71,7 @@ export class GoalService {
 
         if(!exist){
             this.logger.warn('This goal not found', this.name)
-            throw new NotFoundException(`Цель с таким названием не найдена! ${user.id}`)
+            throw new NotFoundException(`Цель с таким ID не найдена! ${user.id}`)
         }
 
         const newValue = exist.savedMoney + savedMoney
@@ -94,7 +94,7 @@ export class GoalService {
         const id = dto.id
         if(!await this.prismaService.goal.findUnique({where:{id}})){
             this.logger.warn('This goal not found', this.name)
-            throw new NotFoundException(`Цель с таким названием не найдена! ${user.id}`)
+            throw new NotFoundException(`Цель с таким ID не найдена! ${user.id}`)
         }
         await this.prismaService.goal.delete({
             where:{
@@ -103,6 +103,6 @@ export class GoalService {
         })
 
         this.logger.log(`Successful! ${user.id}`, this.name)
-        return true
+        return await this.getAll(user)
     }
 }
