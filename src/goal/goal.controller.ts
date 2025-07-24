@@ -55,6 +55,22 @@ export class GoalController {
     return await this.goalService.update(user, dto)
   }
 
+  @Patch('minus')
+  @ApiOperation({
+    summary: 'Уменьшение накопленных денег'
+  })
+  @ApiOkResponse({
+    type: 'true'
+  })
+  @ApiNotFoundResponse({
+    description: 'Not Found Exception'
+  })
+  @HttpCode(HttpStatus.OK)
+  @Authorization()
+  async minus(@Authorized() user: User, @Body() dto: UpdateGoalDto){
+    return await this.goalService.minus(user, dto)
+  }
+
   @Delete('delete')
   @ApiOperation({
     summary: 'Удаление цели'

@@ -89,6 +89,40 @@ export class GoalService {
         return true
     }
 
+    async minus(user: User, dto: UpdateGoalDto){
+        this.logger.log(`Try to minus goal: ${user.id}`, this.name)
+        const {id, savedMoney} = dto
+        const exist = await this.prismaService.goal.findUnique({
+            where:{
+                id
+            }
+        })
+
+        if(!exist){
+            this.logger.warn('This goal not found', this.name)
+            throw new NotFoundException(`Цель с таким ID не найдена! ${user.id}`)
+        }
+
+        const newValue = exist.savedMoney - savedMoney
+
+        if(newValue <= 0){
+            this.logger.warn('Money value is negative', this.name)
+            throw new ConflictException('Получено отрицательное значение')
+        }
+
+        const update = await this.prismaService.goal.update({
+            where:{
+                id
+            },
+            data:{
+                savedMoney: newValue
+            }
+        })
+
+        this.logger.log(`Successful! ${user.id}`, this.name)
+        return true
+    }
+
     async delete(user: User, dto: DeleteDto){
         this.logger.log(`Try to delete goal: ${user.id}`, this.name)
         const id = dto.id
