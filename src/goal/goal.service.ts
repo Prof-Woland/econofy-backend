@@ -86,7 +86,7 @@ export class GoalService {
         })
 
         this.logger.log(`Successful! ${user.id}`, this.name)
-        return true
+        return update
     }
 
     async minus(user: User, dto: UpdateGoalDto){
@@ -120,7 +120,7 @@ export class GoalService {
         })
 
         this.logger.log(`Successful! ${user.id}`, this.name)
-        return true
+        return update
     }
 
     async delete(user: User, dto: DeleteDto){
