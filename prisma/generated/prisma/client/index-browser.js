@@ -147,12 +147,6 @@ exports.Prisma.PlanScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.AuthScalarFieldEnum = {
-  userLogin: 'userLogin',
-  accessToken: 'accessToken',
-  refreshToken: 'refreshToken'
-};
-
 exports.Prisma.AvatarScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -176,7 +170,6 @@ exports.Prisma.ModelName = {
   User: 'User',
   Goal: 'Goal',
   Plan: 'Plan',
-  Auth: 'Auth',
   Avatar: 'Avatar'
 };
 

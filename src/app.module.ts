@@ -9,9 +9,12 @@ import { PlanModule } from './plan/plan.module';
 import { LoggingMiddleware } from './common/middlewares/logger.middleware';
 import { AuthService } from './auth/auth.service';
 import { PrismaService } from './prisma/prisma.service';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
-  imports: [ConfigModule.forRoot({
+  imports: [CacheModule.register({
+    isGlobal: true
+  }), ConfigModule.forRoot({
     isGlobal: true
   }), AuthModule, PrismaModule, GoalModule, PlanModule],
   controllers: [AppController],

@@ -1,4 +1,4 @@
-import { BadRequestException, ConflictException, ForbiddenException, ImATeapotException, Injectable, InternalServerErrorException, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, ConflictException, ForbiddenException, ImATeapotException, Inject, Injectable, InternalServerErrorException, Logger, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { PrismaService } from '../prisma/prisma.service';
 import { UserDto, RefreshDto } from './dto/User.dto';
@@ -9,6 +9,8 @@ import { AllLogger } from 'src/common/log/logger.log';
 import { ExtractJwt } from 'passport-jwt';
 import { Request } from 'express';
 import { User } from 'prisma/generated/prisma/client';
+import { CACHE_MANAGER } from '@nestjs/cache-manager';
+import { Cache } from 'cache-manager';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +20,7 @@ export class AuthService {
     private readonly JWT_ACCESS_TOKEN_TTL: string;
     private readonly JWT_REFRESH_TOKEN_TTL: string;
     private readonly extractor: (request: Request) => string | null;
-    constructor(private readonly configService: ConfigService, private readonly prismaService: PrismaService, private readonly jwtService: JwtService){
+    constructor(private readonly configService: ConfigService, private readonly prismaService: PrismaService, private readonly jwtService: JwtService, @Inject(CACHE_MANAGER) private cacheManager: Cache){
         this.JWT_SECRET = this.configService.getOrThrow("JWT_SECRET")
         this.JWT_ACCESS_TOKEN_TTL = this.configService.getOrThrow("JWT_ACCESS_TOKEN_TTL");
         this.JWT_REFRESH_TOKEN_TTL = this.configService.getOrThrow("JWT_REFRESH_TOKEN_TTL");
@@ -51,13 +53,8 @@ export class AuthService {
             }
         });
         const tokens = this.generateTokens(newUser.login);
-        await this.prismaService.auth.create({
-            data:{
-                userLogin: login,
-                accessToken: tokens.accessToken,
-                refreshToken: tokens.refreshToken,
-            }
-        })
+
+        await this.cachingTokens(newUser.id, tokens.accessToken, tokens.refreshToken)
         
         this.logger.log(`Successful registration: ${login}`, this.name);
         return tokens
@@ -88,33 +85,17 @@ export class AuthService {
             this.logger.warn(`False password: ${login}`, this.name);
             throw new NotFoundException('Неверный пароль');
         };
-        const tokens = this.generateTokens(login)
+        const tokens = this.generateTokens(login);
 
-        const exist = await this.prismaService.auth.findUnique({
-            where:{
-                userLogin: login
-            }
-        })
+        try{
+            await this.cacheManager.del(`${extendUser.id + 'at'}`)
+            await this.cacheManager.del(`${extendUser.id + 'rt'}`)
+            await this.cachingTokens(extendUser.id, tokens.accessToken, tokens.refreshToken)
+        }
+        catch(InternalServerErrorException){
+            this.logger.warn(`Failed to update tokens: ${login}`, this.name)
+        }
 
-        if(exist){
-            await this.prismaService.auth.update({
-            where:{
-                userLogin: login
-            },
-            data:{
-                ...tokens
-            }
-            })
-        }
-        else{
-            await this.prismaService.auth.create({
-            data:{
-                userLogin: login,
-                accessToken: tokens.accessToken,
-                refreshToken: tokens.refreshToken,
-            }
-            })
-        }
         this.logger.log(`Successful authorization: ${login}`, this.name);
 
         const avatar = await this.getAvatar(extendUser.id);
@@ -147,14 +128,7 @@ export class AuthService {
             throw new UnauthorizedException('Неверный ключ токена обновления');
         }
 
-        const exist = await this.prismaService.auth.findUnique({
-            where:{
-                userLogin: payload.login
-            },
-            select:{
-                refreshToken: true
-            }
-        })
+        const exist = await this.getCacheTokens(user.id)
 
         if(refreshT != exist?.refreshToken){
             this.logger.log(`Wrong refresh token`, this.name);
@@ -162,14 +136,14 @@ export class AuthService {
         }
 
         const tokens = this.generateTokens(payload.login)
-        await this.prismaService.auth.update({
-            where:{
-                userLogin: payload.login
-            },
-            data:{
-                ...tokens
-            }
-            })
+        try{
+            await this.cacheManager.del(`${user.id + 'at'}`)
+            await this.cacheManager.del(`${user.id + 'rt'}`)
+            await this.cachingTokens(user.id, tokens.accessToken, tokens.refreshToken)
+        }
+        catch(InternalServerErrorException){
+            this.logger.warn(`Failed to update tokens: ${payload.login}`, this.name)
+        }
 
         const avatar = await this.getAvatar(user.id)
         this.logger.log(`Successful refresh`, this.name);
@@ -193,11 +167,9 @@ export class AuthService {
         if(!user){
             throw new NotFoundException();
         };
-        const extToken = await this.prismaService.auth.findUnique({
-            where: {
-                userLogin: login
-            },
-        });
+        const extToken = await this.getCacheTokens(user.id)
+        console.log(extToken)
+        console.log(token)
 
         if(extToken?.accessToken != token){
             throw new ForbiddenException('Скомпрометированный токен доступа')
@@ -231,5 +203,32 @@ export class AuthService {
             accessToken,
             refreshToken
         }
+    }
+
+    private async cachingTokens(id: string, accessToken: string,  refreshToken: string){
+        try{
+            await this.cacheManager.set(`${id + 'at'}`, `${accessToken}`, 3*60*60*1000);
+            await this.cacheManager.set(`${id + 'rt'}`, `${refreshToken}`, 8*24*60*60*1000);
+        }
+        catch(InternalServerErrorException){
+            this.logger.warn(`Failed to add tokens to cache: ${id}`, this.name);
+            throw new ImATeapotException('Не удалось добавить токены в кэш');
+        }
+        return true
+    }
+
+    private async getCacheTokens(id: string){
+        const accessToken = await this.cacheManager.get(`${id + 'at'}`);
+        const refreshToken = await this.cacheManager.get(`${id + 'rt'}`);
+        if(!accessToken){
+            this.logger.warn(`Failed to get accessToken from cache: ${id}`, this.name);
+            throw new ForbiddenException('Не удалось получить токен доступа из кэша. Токен скомпрометирован');
+        }
+        if(!refreshToken){
+            this.logger.warn(`Failed to get refreshToken from cache: ${id}`, this.name);
+            throw new ForbiddenException('Не удалось получить токен обновления из кэша. Токен скомпрометирован');
+        }
+
+        return {accessToken, refreshToken}
     }
 }
