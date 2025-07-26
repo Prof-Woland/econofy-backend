@@ -65,6 +65,7 @@ export class GoalService {
         const {id, savedMoney} = dto
         const exist = await this.prismaService.goal.findUnique({
             where:{
+                userId: user.id,
                 id
             }
         })
@@ -78,6 +79,7 @@ export class GoalService {
 
         const update = await this.prismaService.goal.update({
             where:{
+                userId: user.id,
                 id
             },
             data:{
@@ -94,6 +96,7 @@ export class GoalService {
         const {id, savedMoney} = dto
         const exist = await this.prismaService.goal.findUnique({
             where:{
+                userId: user.id,
                 id
             }
         })
@@ -105,13 +108,14 @@ export class GoalService {
 
         const newValue = exist.savedMoney - savedMoney
 
-        if(newValue <= 0){
+        if(newValue < 0){
             this.logger.warn('Money value is negative', this.name)
             throw new ConflictException('Получено отрицательное значение')
         }
 
         const update = await this.prismaService.goal.update({
             where:{
+                userId: user.id,
                 id
             },
             data:{
@@ -132,6 +136,7 @@ export class GoalService {
         }
         await this.prismaService.goal.delete({
             where:{
+                userId: user.id,
                 id
             }
         })

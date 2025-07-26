@@ -16,7 +16,7 @@ datasource db {
 }
 
 model User {
-  id String @id @default(uuid())
+  id String @id @unique @default(uuid())
 
   login    String @unique()
   password String
@@ -33,15 +33,15 @@ model User {
 }
 
 model Goal {
-  id String @id @default(uuid())
+  id String @id @unique @default(uuid())
 
-  userLogin String
-  user      User   @relation(fields: [userLogin], references: [login], onDelete: Cascade)
+  userId String @map("user_id")
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   title      String
-  date       DateTime
-  savedMoney Int      @default(0) @map("saved_money")
-  allMoney   Int      @map("all_money")
+  date       String
+  savedMoney Float  @default(0) @map("saved_money")
+  allMoney   Float  @map("all_money")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -50,10 +50,10 @@ model Goal {
 }
 
 model Plan {
-  id String @id @default(uuid())
+  id String @id @unique @default(uuid())
 
-  userLogin String
-  user      User   @relation(fields: [userLogin], references: [login], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   title String
 
@@ -70,8 +70,9 @@ model Auth {
 }
 
 model Avatar {
-  userLogin String @id @unique @map("user_login")
-  user      User   @relation(fields: [userLogin], references: [login])
+  id     String @id @unique @default(uuid())
+  userId String @unique @map("user_id")
+  user   User   @relation(fields: [userId], references: [id])
 
   avatarPath String
 

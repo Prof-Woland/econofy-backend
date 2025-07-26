@@ -40,8 +40,8 @@ model Goal{
 
   title String
   date String
-  savedMoney Int @default(0) @map("saved_money")
-  allMoney Int @map("all_money")
+  savedMoney Float @default(0) @map("saved_money")
+  allMoney Float @map("all_money")
 
   createdAt DateTime @map("created_at") @default(now())
   updatedAt DateTime @updatedAt @map("updated_at")

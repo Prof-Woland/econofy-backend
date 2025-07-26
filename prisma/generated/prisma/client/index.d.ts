@@ -3133,8 +3133,8 @@ export namespace Prisma {
     readonly userId: FieldRef<"Goal", 'String'>
     readonly title: FieldRef<"Goal", 'String'>
     readonly date: FieldRef<"Goal", 'String'>
-    readonly savedMoney: FieldRef<"Goal", 'Int'>
-    readonly allMoney: FieldRef<"Goal", 'Int'>
+    readonly savedMoney: FieldRef<"Goal", 'Float'>
+    readonly allMoney: FieldRef<"Goal", 'Float'>
     readonly createdAt: FieldRef<"Goal", 'DateTime'>
     readonly updatedAt: FieldRef<"Goal", 'DateTime'>
   }
@@ -6819,20 +6819,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -6843,6 +6829,20 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
   /**
    * Deep Input Types
@@ -6921,8 +6921,8 @@ export namespace Prisma {
     userId?: StringFilter<"Goal"> | string
     title?: StringFilter<"Goal"> | string
     date?: StringFilter<"Goal"> | string
-    savedMoney?: IntFilter<"Goal"> | number
-    allMoney?: IntFilter<"Goal"> | number
+    savedMoney?: FloatFilter<"Goal"> | number
+    allMoney?: FloatFilter<"Goal"> | number
     createdAt?: DateTimeFilter<"Goal"> | Date | string
     updatedAt?: DateTimeFilter<"Goal"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -6948,8 +6948,8 @@ export namespace Prisma {
     userId?: StringFilter<"Goal"> | string
     title?: StringFilter<"Goal"> | string
     date?: StringFilter<"Goal"> | string
-    savedMoney?: IntFilter<"Goal"> | number
-    allMoney?: IntFilter<"Goal"> | number
+    savedMoney?: FloatFilter<"Goal"> | number
+    allMoney?: FloatFilter<"Goal"> | number
     createdAt?: DateTimeFilter<"Goal"> | Date | string
     updatedAt?: DateTimeFilter<"Goal"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -6979,8 +6979,8 @@ export namespace Prisma {
     userId?: StringWithAggregatesFilter<"Goal"> | string
     title?: StringWithAggregatesFilter<"Goal"> | string
     date?: StringWithAggregatesFilter<"Goal"> | string
-    savedMoney?: IntWithAggregatesFilter<"Goal"> | number
-    allMoney?: IntWithAggregatesFilter<"Goal"> | number
+    savedMoney?: FloatWithAggregatesFilter<"Goal"> | number
+    allMoney?: FloatWithAggregatesFilter<"Goal"> | number
     createdAt?: DateTimeWithAggregatesFilter<"Goal"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Goal"> | Date | string
   }
@@ -7238,8 +7238,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     date?: StringFieldUpdateOperationsInput | string
-    savedMoney?: IntFieldUpdateOperationsInput | number
-    allMoney?: IntFieldUpdateOperationsInput | number
+    savedMoney?: FloatFieldUpdateOperationsInput | number
+    allMoney?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutGoalsNestedInput
@@ -7250,8 +7250,8 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     date?: StringFieldUpdateOperationsInput | string
-    savedMoney?: IntFieldUpdateOperationsInput | number
-    allMoney?: IntFieldUpdateOperationsInput | number
+    savedMoney?: FloatFieldUpdateOperationsInput | number
+    allMoney?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7271,8 +7271,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     date?: StringFieldUpdateOperationsInput | string
-    savedMoney?: IntFieldUpdateOperationsInput | number
-    allMoney?: IntFieldUpdateOperationsInput | number
+    savedMoney?: FloatFieldUpdateOperationsInput | number
+    allMoney?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7282,8 +7282,8 @@ export namespace Prisma {
     userId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     date?: StringFieldUpdateOperationsInput | string
-    savedMoney?: IntFieldUpdateOperationsInput | number
-    allMoney?: IntFieldUpdateOperationsInput | number
+    savedMoney?: FloatFieldUpdateOperationsInput | number
+    allMoney?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7551,15 +7551,15 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
+  export type FloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type UserScalarRelationFilter = {
@@ -7610,20 +7610,20 @@ export namespace Prisma {
     allMoney?: SortOrder
   }
 
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+  export type FloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
     _count?: NestedIntFilter<$PrismaModel>
     _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type PlanCountOrderByAggregateInput = {
@@ -7854,7 +7854,7 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
-  export type IntFieldUpdateOperationsInput = {
+  export type FloatFieldUpdateOperationsInput = {
     set?: number
     increment?: number
     decrement?: number
@@ -7979,22 +7979,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
   export type NestedFloatFilter<$PrismaModel = never> = {
     equals?: number | FloatFieldRefInput<$PrismaModel>
     in?: number[] | ListFloatFieldRefInput<$PrismaModel>
@@ -8004,6 +7988,22 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type NestedFloatWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedFloatFilter<$PrismaModel>
+    _min?: NestedFloatFilter<$PrismaModel>
+    _max?: NestedFloatFilter<$PrismaModel>
   }
 
   export type GoalCreateWithoutUserInput = {
@@ -8118,8 +8118,8 @@ export namespace Prisma {
     userId?: StringFilter<"Goal"> | string
     title?: StringFilter<"Goal"> | string
     date?: StringFilter<"Goal"> | string
-    savedMoney?: IntFilter<"Goal"> | number
-    allMoney?: IntFilter<"Goal"> | number
+    savedMoney?: FloatFilter<"Goal"> | number
+    allMoney?: FloatFilter<"Goal"> | number
     createdAt?: DateTimeFilter<"Goal"> | Date | string
     updatedAt?: DateTimeFilter<"Goal"> | Date | string
   }
@@ -8458,8 +8458,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     date?: StringFieldUpdateOperationsInput | string
-    savedMoney?: IntFieldUpdateOperationsInput | number
-    allMoney?: IntFieldUpdateOperationsInput | number
+    savedMoney?: FloatFieldUpdateOperationsInput | number
+    allMoney?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8468,8 +8468,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     date?: StringFieldUpdateOperationsInput | string
-    savedMoney?: IntFieldUpdateOperationsInput | number
-    allMoney?: IntFieldUpdateOperationsInput | number
+    savedMoney?: FloatFieldUpdateOperationsInput | number
+    allMoney?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8478,8 +8478,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     date?: StringFieldUpdateOperationsInput | string
-    savedMoney?: IntFieldUpdateOperationsInput | number
-    allMoney?: IntFieldUpdateOperationsInput | number
+    savedMoney?: FloatFieldUpdateOperationsInput | number
+    allMoney?: FloatFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
