@@ -168,8 +168,6 @@ export class AuthService {
             throw new NotFoundException();
         };
         const extToken = await this.getCacheTokens(user.id)
-        console.log(extToken)
-        console.log(token)
 
         if(extToken?.accessToken != token){
             throw new ForbiddenException('Скомпрометированный токен доступа')
@@ -207,8 +205,8 @@ export class AuthService {
 
     private async cachingTokens(id: string, accessToken: string,  refreshToken: string){
         try{
-            await this.cacheManager.set(`${id + 'at'}`, `${accessToken}`, 3*60*60*1000);
-            await this.cacheManager.set(`${id + 'rt'}`, `${refreshToken}`, 8*24*60*60*1000);
+            await this.cacheManager.set(`${id + 'at'}`, `${accessToken}`, 10800000);
+            await this.cacheManager.set(`${id + 'rt'}`, `${refreshToken}`, 691200000);
         }
         catch(InternalServerErrorException){
             this.logger.warn(`Failed to add tokens to cache: ${id}`, this.name);

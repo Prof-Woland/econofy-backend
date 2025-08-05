@@ -3443,14 +3443,34 @@ export namespace Prisma {
 
   export type AggregatePlan = {
     _count: PlanCountAggregateOutputType | null
+    _avg: PlanAvgAggregateOutputType | null
+    _sum: PlanSumAggregateOutputType | null
     _min: PlanMinAggregateOutputType | null
     _max: PlanMaxAggregateOutputType | null
+  }
+
+  export type PlanAvgAggregateOutputType = {
+    spentMoney: number | null
+    limitMoney: number | null
+    remainder: number | null
+  }
+
+  export type PlanSumAggregateOutputType = {
+    spentMoney: number | null
+    limitMoney: number | null
+    remainder: number | null
   }
 
   export type PlanMinAggregateOutputType = {
     id: string | null
     userId: string | null
     title: string | null
+    date: string | null
+    spentMoney: number | null
+    limitMoney: number | null
+    remainder: number | null
+    analysis: string | null
+    term: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3459,6 +3479,12 @@ export namespace Prisma {
     id: string | null
     userId: string | null
     title: string | null
+    date: string | null
+    spentMoney: number | null
+    limitMoney: number | null
+    remainder: number | null
+    analysis: string | null
+    term: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3467,16 +3493,42 @@ export namespace Prisma {
     id: number
     userId: number
     title: number
+    date: number
+    spentMoney: number
+    limitMoney: number
+    remainder: number
+    analysis: number
+    recommendations: number
+    budgetPlan: number
+    term: number
     createdAt: number
     updatedAt: number
     _all: number
   }
 
 
+  export type PlanAvgAggregateInputType = {
+    spentMoney?: true
+    limitMoney?: true
+    remainder?: true
+  }
+
+  export type PlanSumAggregateInputType = {
+    spentMoney?: true
+    limitMoney?: true
+    remainder?: true
+  }
+
   export type PlanMinAggregateInputType = {
     id?: true
     userId?: true
     title?: true
+    date?: true
+    spentMoney?: true
+    limitMoney?: true
+    remainder?: true
+    analysis?: true
+    term?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3485,6 +3537,12 @@ export namespace Prisma {
     id?: true
     userId?: true
     title?: true
+    date?: true
+    spentMoney?: true
+    limitMoney?: true
+    remainder?: true
+    analysis?: true
+    term?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3493,6 +3551,14 @@ export namespace Prisma {
     id?: true
     userId?: true
     title?: true
+    date?: true
+    spentMoney?: true
+    limitMoney?: true
+    remainder?: true
+    analysis?: true
+    recommendations?: true
+    budgetPlan?: true
+    term?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3536,6 +3602,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: PlanAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: PlanSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: PlanMinAggregateInputType
@@ -3566,6 +3644,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: PlanCountAggregateInputType | true
+    _avg?: PlanAvgAggregateInputType
+    _sum?: PlanSumAggregateInputType
     _min?: PlanMinAggregateInputType
     _max?: PlanMaxAggregateInputType
   }
@@ -3574,9 +3654,19 @@ export namespace Prisma {
     id: string
     userId: string
     title: string
+    date: string
+    spentMoney: number
+    limitMoney: number
+    remainder: number
+    analysis: string
+    recommendations: string[]
+    budgetPlan: JsonValue
+    term: string
     createdAt: Date
     updatedAt: Date
     _count: PlanCountAggregateOutputType | null
+    _avg: PlanAvgAggregateOutputType | null
+    _sum: PlanSumAggregateOutputType | null
     _min: PlanMinAggregateOutputType | null
     _max: PlanMaxAggregateOutputType | null
   }
@@ -3599,6 +3689,14 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     title?: boolean
+    date?: boolean
+    spentMoney?: boolean
+    limitMoney?: boolean
+    remainder?: boolean
+    analysis?: boolean
+    recommendations?: boolean
+    budgetPlan?: boolean
+    term?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -3608,6 +3706,14 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     title?: boolean
+    date?: boolean
+    spentMoney?: boolean
+    limitMoney?: boolean
+    remainder?: boolean
+    analysis?: boolean
+    recommendations?: boolean
+    budgetPlan?: boolean
+    term?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -3617,6 +3723,14 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     title?: boolean
+    date?: boolean
+    spentMoney?: boolean
+    limitMoney?: boolean
+    remainder?: boolean
+    analysis?: boolean
+    recommendations?: boolean
+    budgetPlan?: boolean
+    term?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -3626,11 +3740,19 @@ export namespace Prisma {
     id?: boolean
     userId?: boolean
     title?: boolean
+    date?: boolean
+    spentMoney?: boolean
+    limitMoney?: boolean
+    remainder?: boolean
+    analysis?: boolean
+    recommendations?: boolean
+    budgetPlan?: boolean
+    term?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type PlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "title" | "createdAt" | "updatedAt", ExtArgs["result"]["plan"]>
+  export type PlanOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "title" | "date" | "spentMoney" | "limitMoney" | "remainder" | "analysis" | "recommendations" | "budgetPlan" | "term" | "createdAt" | "updatedAt", ExtArgs["result"]["plan"]>
   export type PlanInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
   }
@@ -3650,6 +3772,14 @@ export namespace Prisma {
       id: string
       userId: string
       title: string
+      date: string
+      spentMoney: number
+      limitMoney: number
+      remainder: number
+      analysis: string
+      recommendations: string[]
+      budgetPlan: Prisma.JsonValue
+      term: string
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["plan"]>
@@ -4079,6 +4209,14 @@ export namespace Prisma {
     readonly id: FieldRef<"Plan", 'String'>
     readonly userId: FieldRef<"Plan", 'String'>
     readonly title: FieldRef<"Plan", 'String'>
+    readonly date: FieldRef<"Plan", 'String'>
+    readonly spentMoney: FieldRef<"Plan", 'Float'>
+    readonly limitMoney: FieldRef<"Plan", 'Float'>
+    readonly remainder: FieldRef<"Plan", 'Float'>
+    readonly analysis: FieldRef<"Plan", 'String'>
+    readonly recommendations: FieldRef<"Plan", 'String[]'>
+    readonly budgetPlan: FieldRef<"Plan", 'Json'>
+    readonly term: FieldRef<"Plan", 'String'>
     readonly createdAt: FieldRef<"Plan", 'DateTime'>
     readonly updatedAt: FieldRef<"Plan", 'DateTime'>
   }
@@ -5596,6 +5734,14 @@ export namespace Prisma {
     id: 'id',
     userId: 'userId',
     title: 'title',
+    date: 'date',
+    spentMoney: 'spentMoney',
+    limitMoney: 'limitMoney',
+    remainder: 'remainder',
+    analysis: 'analysis',
+    recommendations: 'recommendations',
+    budgetPlan: 'budgetPlan',
+    term: 'term',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -5622,12 +5768,28 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
+  export const JsonNullValueInput: {
+    JsonNull: typeof JsonNull
+  };
+
+  export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
+
+
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
+
+
+  export const JsonNullValueFilter: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull,
+    AnyNull: typeof AnyNull
+  };
+
+  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   /**
@@ -5674,6 +5836,20 @@ export namespace Prisma {
    * Reference to a field of type 'Float[]'
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'QueryMode'
+   */
+  export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
     
 
 
@@ -5834,6 +6010,14 @@ export namespace Prisma {
     id?: StringFilter<"Plan"> | string
     userId?: StringFilter<"Plan"> | string
     title?: StringFilter<"Plan"> | string
+    date?: StringFilter<"Plan"> | string
+    spentMoney?: FloatFilter<"Plan"> | number
+    limitMoney?: FloatFilter<"Plan"> | number
+    remainder?: FloatFilter<"Plan"> | number
+    analysis?: StringFilter<"Plan"> | string
+    recommendations?: StringNullableListFilter<"Plan">
+    budgetPlan?: JsonFilter<"Plan">
+    term?: StringFilter<"Plan"> | string
     createdAt?: DateTimeFilter<"Plan"> | Date | string
     updatedAt?: DateTimeFilter<"Plan"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -5843,6 +6027,14 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     title?: SortOrder
+    date?: SortOrder
+    spentMoney?: SortOrder
+    limitMoney?: SortOrder
+    remainder?: SortOrder
+    analysis?: SortOrder
+    recommendations?: SortOrder
+    budgetPlan?: SortOrder
+    term?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     user?: UserOrderByWithRelationInput
@@ -5855,6 +6047,14 @@ export namespace Prisma {
     NOT?: PlanWhereInput | PlanWhereInput[]
     userId?: StringFilter<"Plan"> | string
     title?: StringFilter<"Plan"> | string
+    date?: StringFilter<"Plan"> | string
+    spentMoney?: FloatFilter<"Plan"> | number
+    limitMoney?: FloatFilter<"Plan"> | number
+    remainder?: FloatFilter<"Plan"> | number
+    analysis?: StringFilter<"Plan"> | string
+    recommendations?: StringNullableListFilter<"Plan">
+    budgetPlan?: JsonFilter<"Plan">
+    term?: StringFilter<"Plan"> | string
     createdAt?: DateTimeFilter<"Plan"> | Date | string
     updatedAt?: DateTimeFilter<"Plan"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
@@ -5864,11 +6064,21 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     title?: SortOrder
+    date?: SortOrder
+    spentMoney?: SortOrder
+    limitMoney?: SortOrder
+    remainder?: SortOrder
+    analysis?: SortOrder
+    recommendations?: SortOrder
+    budgetPlan?: SortOrder
+    term?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: PlanCountOrderByAggregateInput
+    _avg?: PlanAvgOrderByAggregateInput
     _max?: PlanMaxOrderByAggregateInput
     _min?: PlanMinOrderByAggregateInput
+    _sum?: PlanSumOrderByAggregateInput
   }
 
   export type PlanScalarWhereWithAggregatesInput = {
@@ -5878,6 +6088,14 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Plan"> | string
     userId?: StringWithAggregatesFilter<"Plan"> | string
     title?: StringWithAggregatesFilter<"Plan"> | string
+    date?: StringWithAggregatesFilter<"Plan"> | string
+    spentMoney?: FloatWithAggregatesFilter<"Plan"> | number
+    limitMoney?: FloatWithAggregatesFilter<"Plan"> | number
+    remainder?: FloatWithAggregatesFilter<"Plan"> | number
+    analysis?: StringWithAggregatesFilter<"Plan"> | string
+    recommendations?: StringNullableListFilter<"Plan">
+    budgetPlan?: JsonWithAggregatesFilter<"Plan">
+    term?: StringWithAggregatesFilter<"Plan"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Plan"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Plan"> | Date | string
   }
@@ -6082,17 +6300,33 @@ export namespace Prisma {
   }
 
   export type PlanCreateInput = {
-    id?: string
+    id: string
     title: string
+    date: string
+    spentMoney?: number
+    limitMoney: number
+    remainder: number
+    analysis: string
+    recommendations?: PlanCreaterecommendationsInput | string[]
+    budgetPlan: JsonNullValueInput | InputJsonValue
+    term: string
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutPlansInput
   }
 
   export type PlanUncheckedCreateInput = {
-    id?: string
+    id: string
     userId: string
     title: string
+    date: string
+    spentMoney?: number
+    limitMoney: number
+    remainder: number
+    analysis: string
+    recommendations?: PlanCreaterecommendationsInput | string[]
+    budgetPlan: JsonNullValueInput | InputJsonValue
+    term: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -6100,6 +6334,14 @@ export namespace Prisma {
   export type PlanUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    spentMoney?: FloatFieldUpdateOperationsInput | number
+    limitMoney?: FloatFieldUpdateOperationsInput | number
+    remainder?: FloatFieldUpdateOperationsInput | number
+    analysis?: StringFieldUpdateOperationsInput | string
+    recommendations?: PlanUpdaterecommendationsInput | string[]
+    budgetPlan?: JsonNullValueInput | InputJsonValue
+    term?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutPlansNestedInput
@@ -6109,14 +6351,30 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    spentMoney?: FloatFieldUpdateOperationsInput | number
+    limitMoney?: FloatFieldUpdateOperationsInput | number
+    remainder?: FloatFieldUpdateOperationsInput | number
+    analysis?: StringFieldUpdateOperationsInput | string
+    recommendations?: PlanUpdaterecommendationsInput | string[]
+    budgetPlan?: JsonNullValueInput | InputJsonValue
+    term?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PlanCreateManyInput = {
-    id?: string
+    id: string
     userId: string
     title: string
+    date: string
+    spentMoney?: number
+    limitMoney: number
+    remainder: number
+    analysis: string
+    recommendations?: PlanCreaterecommendationsInput | string[]
+    budgetPlan: JsonNullValueInput | InputJsonValue
+    term: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -6124,6 +6382,14 @@ export namespace Prisma {
   export type PlanUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    spentMoney?: FloatFieldUpdateOperationsInput | number
+    limitMoney?: FloatFieldUpdateOperationsInput | number
+    remainder?: FloatFieldUpdateOperationsInput | number
+    analysis?: StringFieldUpdateOperationsInput | string
+    recommendations?: PlanUpdaterecommendationsInput | string[]
+    budgetPlan?: JsonNullValueInput | InputJsonValue
+    term?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6132,6 +6398,14 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    spentMoney?: FloatFieldUpdateOperationsInput | number
+    limitMoney?: FloatFieldUpdateOperationsInput | number
+    remainder?: FloatFieldUpdateOperationsInput | number
+    analysis?: StringFieldUpdateOperationsInput | string
+    recommendations?: PlanUpdaterecommendationsInput | string[]
+    budgetPlan?: JsonNullValueInput | InputJsonValue
+    term?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -6373,18 +6647,69 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+  export type JsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
   export type PlanCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     title?: SortOrder
+    date?: SortOrder
+    spentMoney?: SortOrder
+    limitMoney?: SortOrder
+    remainder?: SortOrder
+    analysis?: SortOrder
+    recommendations?: SortOrder
+    budgetPlan?: SortOrder
+    term?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type PlanAvgOrderByAggregateInput = {
+    spentMoney?: SortOrder
+    limitMoney?: SortOrder
+    remainder?: SortOrder
   }
 
   export type PlanMaxOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
     title?: SortOrder
+    date?: SortOrder
+    spentMoney?: SortOrder
+    limitMoney?: SortOrder
+    remainder?: SortOrder
+    analysis?: SortOrder
+    term?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -6393,8 +6718,46 @@ export namespace Prisma {
     id?: SortOrder
     userId?: SortOrder
     title?: SortOrder
+    date?: SortOrder
+    spentMoney?: SortOrder
+    limitMoney?: SortOrder
+    remainder?: SortOrder
+    analysis?: SortOrder
+    term?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
+  }
+
+  export type PlanSumOrderByAggregateInput = {
+    spentMoney?: SortOrder
+    limitMoney?: SortOrder
+    remainder?: SortOrder
+  }
+  export type JsonWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedJsonFilter<$PrismaModel>
+    _max?: NestedJsonFilter<$PrismaModel>
   }
 
   export type AvatarCountOrderByAggregateInput = {
@@ -6567,10 +6930,19 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutGoalsInput, UserUpdateWithoutGoalsInput>, UserUncheckedUpdateWithoutGoalsInput>
   }
 
+  export type PlanCreaterecommendationsInput = {
+    set: string[]
+  }
+
   export type UserCreateNestedOneWithoutPlansInput = {
     create?: XOR<UserCreateWithoutPlansInput, UserUncheckedCreateWithoutPlansInput>
     connectOrCreate?: UserCreateOrConnectWithoutPlansInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type PlanUpdaterecommendationsInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type UserUpdateOneRequiredWithoutPlansNestedInput = {
@@ -6688,6 +7060,29 @@ export namespace Prisma {
     _min?: NestedFloatFilter<$PrismaModel>
     _max?: NestedFloatFilter<$PrismaModel>
   }
+  export type NestedJsonFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type GoalCreateWithoutUserInput = {
     id?: string
@@ -6720,15 +7115,31 @@ export namespace Prisma {
   }
 
   export type PlanCreateWithoutUserInput = {
-    id?: string
+    id: string
     title: string
+    date: string
+    spentMoney?: number
+    limitMoney: number
+    remainder: number
+    analysis: string
+    recommendations?: PlanCreaterecommendationsInput | string[]
+    budgetPlan: JsonNullValueInput | InputJsonValue
+    term: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
 
   export type PlanUncheckedCreateWithoutUserInput = {
-    id?: string
+    id: string
     title: string
+    date: string
+    spentMoney?: number
+    limitMoney: number
+    remainder: number
+    analysis: string
+    recommendations?: PlanCreaterecommendationsInput | string[]
+    budgetPlan: JsonNullValueInput | InputJsonValue
+    term: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -6815,6 +7226,14 @@ export namespace Prisma {
     id?: StringFilter<"Plan"> | string
     userId?: StringFilter<"Plan"> | string
     title?: StringFilter<"Plan"> | string
+    date?: StringFilter<"Plan"> | string
+    spentMoney?: FloatFilter<"Plan"> | number
+    limitMoney?: FloatFilter<"Plan"> | number
+    remainder?: FloatFilter<"Plan"> | number
+    analysis?: StringFilter<"Plan"> | string
+    recommendations?: StringNullableListFilter<"Plan">
+    budgetPlan?: JsonFilter<"Plan">
+    term?: StringFilter<"Plan"> | string
     createdAt?: DateTimeFilter<"Plan"> | Date | string
     updatedAt?: DateTimeFilter<"Plan"> | Date | string
   }
@@ -7023,8 +7442,16 @@ export namespace Prisma {
   }
 
   export type PlanCreateManyUserInput = {
-    id?: string
+    id: string
     title: string
+    date: string
+    spentMoney?: number
+    limitMoney: number
+    remainder: number
+    analysis: string
+    recommendations?: PlanCreaterecommendationsInput | string[]
+    budgetPlan: JsonNullValueInput | InputJsonValue
+    term: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -7062,6 +7489,14 @@ export namespace Prisma {
   export type PlanUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    spentMoney?: FloatFieldUpdateOperationsInput | number
+    limitMoney?: FloatFieldUpdateOperationsInput | number
+    remainder?: FloatFieldUpdateOperationsInput | number
+    analysis?: StringFieldUpdateOperationsInput | string
+    recommendations?: PlanUpdaterecommendationsInput | string[]
+    budgetPlan?: JsonNullValueInput | InputJsonValue
+    term?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7069,6 +7504,14 @@ export namespace Prisma {
   export type PlanUncheckedUpdateWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    spentMoney?: FloatFieldUpdateOperationsInput | number
+    limitMoney?: FloatFieldUpdateOperationsInput | number
+    remainder?: FloatFieldUpdateOperationsInput | number
+    analysis?: StringFieldUpdateOperationsInput | string
+    recommendations?: PlanUpdaterecommendationsInput | string[]
+    budgetPlan?: JsonNullValueInput | InputJsonValue
+    term?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7076,6 +7519,14 @@ export namespace Prisma {
   export type PlanUncheckedUpdateManyWithoutUserInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    spentMoney?: FloatFieldUpdateOperationsInput | number
+    limitMoney?: FloatFieldUpdateOperationsInput | number
+    remainder?: FloatFieldUpdateOperationsInput | number
+    analysis?: StringFieldUpdateOperationsInput | string
+    recommendations?: PlanUpdaterecommendationsInput | string[]
+    budgetPlan?: JsonNullValueInput | InputJsonValue
+    term?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }

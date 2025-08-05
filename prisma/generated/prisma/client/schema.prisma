@@ -23,7 +23,7 @@ model User {
 
   goals  Goal[]
   plans  Plan[]
-  tokens Auth?
+  // tokens Auth?
   avatar Avatar?
 
   createdAt DateTime @default(now()) @map("created_at")
@@ -55,18 +55,16 @@ model Plan {
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  title String
+  title      String
+  date       String
+  spentMoney Float  @default(0) @map("spent_money")
+  limitMoney Float  @map("limit_money")
+  remainder  Float
+
+  term String
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
-}
-
-model Auth {
-  userLogin String @id @unique @map("user_login")
-  user      User   @relation(fields: [userLogin], references: [login])
-
-  accessToken  String @map("access_token")
-  refreshToken String @map("refresh_token")
 }
 
 model Avatar {

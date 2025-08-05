@@ -50,24 +50,27 @@ model Goal{
 }
 
 model Plan{
-  id String @id @unique @default(uuid())
+  id String @id @unique
 
   userId String
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   title String
+  date String
+  spentMoney Float @default(0) @map("spent_money")
+  limitMoney Float @map("limit_money")
+  remainder Float
+
+  analysis String
+  recommendations String[]
+
+  budgetPlan Json
+
+  term String
 
   createdAt DateTime @map("created_at") @default(now())
   updatedAt DateTime @updatedAt @map("updated_at")
 }
-
-// model Auth{
-//   userLogin String @id @unique @map("user_login")
-//   user User @relation(fields: [userLogin], references: [login])
-
-//   accessToken String @map("access_token")
-//   refreshToken String @map("refresh_token")
-// }
 
 model Avatar{
   id String @id @unique @default(uuid())
