@@ -229,7 +229,6 @@ export class PlanService {
     }
 
     const parsedPlan = JSON.parse(plan);
-    console.log(parsedPlan)
 
     const newPlan = await this.prismaService.plan.create({
       data:{

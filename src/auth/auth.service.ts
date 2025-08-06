@@ -111,11 +111,11 @@ export class AuthService {
         
         if(!decodeObject){
             this.logger.warn(`Invalid token`, this.name);
-            throw new UnauthorizedException('Невалидный токен обновления');
+            throw new ForbiddenException('Невалидный токен обновления');
         }
         if(decodeObject.exp <= Date.now()/1000){
             this.logger.warn(`Old token`, this.name);
-            throw new UnauthorizedException('Устаревший токен обновления');
+            throw new ForbiddenException('Устаревший токен обновления');
         };
 
         let payload: JwtPayload;
@@ -125,7 +125,7 @@ export class AuthService {
         }
         catch(InternalServerErrorException){
             this.logger.warn(`Invalid token`, this.name);
-            throw new UnauthorizedException('Неверный ключ токена обновления');
+            throw new ForbiddenException('Неверный ключ токена обновления');
         }
 
         const exist = await this.getCacheTokens(user.id)
