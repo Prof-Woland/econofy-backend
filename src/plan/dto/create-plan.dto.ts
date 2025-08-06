@@ -72,28 +72,25 @@ export class CreatePlanDto {
 
     @ApiProperty({
         title: "Информация о кредите/кредитах",
-        description: "Массив строк. Может быть пустым",
+        description: "Строка. Может быть пустой",
         example: "Кредит 250BYN/мес (5%)"
     })
-    @IsArray()
-    @IsString({each: true})
-    credit: string[];
+    @IsString()
+    credit: string;
 
     @ApiProperty({
         title: "Информация о хобби",
-        description: "Массив строк. Может быть пустым",
+        description: "Строка. Может быть пустой",
         example: "120BYN/мес"
     })
-    @IsArray()
-    @IsString({each: true})
-    hobby: string[];
+    @IsString()
+    hobby: string;
 
     @ApiProperty({
         title: "Непредвиденные траты",
-        description: "Массив строк. Может быть пустым",
-        example: "12"
+        description: "Строка. Может быть пустой",
+        example: "Ремонт машины 150"
     })
-    @IsArray()
-    @IsString({each: true})
-    expences: string[];
+    @IsString()
+    expences: string;
 }
