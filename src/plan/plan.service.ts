@@ -251,7 +251,15 @@ export class PlanService {
     };
     this.logger.log(`Successful! ${user.id}`, this.name);
 
-    return newPlan
+    return {
+      id: parsedPlan["id"], 
+      title: parsedPlan["title"], 
+      date: parsedPlan["date"], 
+      term: parsedPlan["term"], 
+      limitMoney: parsedPlan["limitMoney"], 
+      spentMoney: 0, 
+      remainder: parsedPlan["remainder"],
+    }
   }
 
   async findAll(user: User) {
