@@ -304,6 +304,7 @@ export class PlanService {
       this.logger.warn('This plan not found', this.name);
       throw new NotFoundException('План с таким ID у этого пользователя не найден')
     }
+    this.logger.log(`Successful! ${user.id}`, this.name)
     return {
       title: plan.title,
       analysis: plan.analysis,
