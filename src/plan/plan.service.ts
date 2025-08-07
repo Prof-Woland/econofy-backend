@@ -293,6 +293,7 @@ export class PlanService {
         userId: user.id,
       },
       select:{
+        title: true,
         analysis: true,
         recommendations: true,
         budgetPlan: true,
@@ -303,7 +304,7 @@ export class PlanService {
       this.logger.warn('This plan not found', this.name);
       throw new NotFoundException('План с таким ID у этого пользователя не найден')
     }
-    return `This action returns a #${id} plan`;
+    return plan;
   }
 
   async update(id: string, dto: MinusPlanDto, user: User) {
