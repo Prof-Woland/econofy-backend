@@ -163,6 +163,14 @@ exports.Prisma.AvatarScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.ExpensesScalarFieldEnum = {
+  id: 'id',
+  planId: 'planId',
+  category: 'category',
+  expense: 'expense',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -188,7 +196,8 @@ exports.Prisma.ModelName = {
   User: 'User',
   Goal: 'Goal',
   Plan: 'Plan',
-  Avatar: 'Avatar'
+  Avatar: 'Avatar',
+  Expenses: 'Expenses'
 };
 
 /**

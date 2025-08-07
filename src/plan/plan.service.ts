@@ -6,6 +6,7 @@ import { AllLogger } from 'src/common/log/logger.log';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { User } from 'prisma/generated/prisma/client';
+import { Categories } from './dto/update-plan.dto'; 
 import { Cache } from 'cache-manager';
 import { PlanToCache } from './interfaces/Plan.interface';
 import { v4 as uuidv4 } from 'uuid';
@@ -287,6 +288,7 @@ export class PlanService {
 
   async findOne(id: string, user: User) {
     this.logger.log(`Try to get plan's description: ${user.id}`, this.name)
+    let expenseArray: object[] = []
     const plan = await this.prismaService.plan.findUnique({
       where:{
         id,
@@ -303,7 +305,31 @@ export class PlanService {
     if(!plan){
       this.logger.warn('This plan not found', this.name);
       throw new NotFoundException('План с таким ID у этого пользователя не найден')
+    };
+    const categoryValues = Object.values(Categories);
+    for(const element in categoryValues){
+      const expense = await this.prismaService.expenses.aggregate({
+        _sum:{
+          expense: true
+        },
+        _count:{
+          _all: true,
+        },
+        where:{
+          category: categoryValues[element],
+          planId: id
+        },
+      })
+      let expenses: number;
+      if(expense._sum.expense){
+        expenses = +expense._sum.expense;
+      }
+      else{
+        expenses = 0;
+      }
+      expenseArray.push({title: categoryValues[element], spendingCount: expense._count._all, spendingMoney: expenses})
     }
+
     this.logger.log(`Successful! ${user.id}`, this.name)
     return {
       id,
@@ -311,6 +337,7 @@ export class PlanService {
       analysis: plan.analysis,
       recommendations: plan.recommendations,
       budgetPlan: plan.budgetPlan,
+      expenses: expenseArray,
     };
   }
 
@@ -342,6 +369,14 @@ export class PlanService {
       data:{
         spentMoney: newSpent,
         remainder: newRemainder,
+      }
+    })
+
+    await this.prismaService.expenses.create({
+      data:{
+        planId: id,
+        category: dto.category,
+        expense: dto.expenses
       }
     })
     this.logger.log(`Successful! ${user.id}`, this.name);

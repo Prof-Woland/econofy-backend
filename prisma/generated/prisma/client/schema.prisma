@@ -15,6 +15,21 @@ datasource db {
   url      = env("POSTGRES_URL")
 }
 
+enum Categories {
+  STORE_AND_HOUSEHOLD
+  COSMETICS
+  TRANSPORT
+  HOUSING_AND_COMMUNAL_SERVICES
+  HEALTH
+  INTERNET
+  HOBBY
+  LOANS
+  CLOTH
+  UNFORESSEN_EXPENSES
+  AIRBAG
+  ADDITIONAL_EXPENSES
+}
+
 model User {
   id String @id @unique @default(uuid())
 
@@ -50,7 +65,7 @@ model Goal {
 }
 
 model Plan {
-  id String @id @unique @default(uuid())
+  id String @id @unique
 
   userId String
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -61,7 +76,14 @@ model Plan {
   limitMoney Float  @map("limit_money")
   remainder  Float
 
+  analysis        String
+  recommendations String[]
+
+  budgetPlan Json
+
   term String
+
+  expenses Expenses[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -76,4 +98,16 @@ model Avatar {
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model Expenses {
+  id String @id @unique @default(uuid())
+
+  planId String @map("plan_id")
+  plan   Plan   @relation(fields: [planId], references: [id], onDelete: Cascade)
+
+  category String
+  expense  Decimal
+
+  createdAt DateTime @default(now()) @map("created_at")
 }
