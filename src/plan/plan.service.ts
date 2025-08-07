@@ -306,6 +306,7 @@ export class PlanService {
     }
     this.logger.log(`Successful! ${user.id}`, this.name)
     return {
+      id,
       title: plan.title,
       analysis: plan.analysis,
       recommendations: plan.recommendations,
