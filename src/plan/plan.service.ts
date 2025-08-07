@@ -367,7 +367,7 @@ export class PlanService {
       }
     })
     this.logger.log(`Successful! ${user.id}`, this.name)
-    return `true`;
+    return this.findAll(user);
   }
 
   private monthsBetweenDates(startDate: Date, endDate: Date): number {
