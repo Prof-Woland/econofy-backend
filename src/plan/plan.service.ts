@@ -304,7 +304,12 @@ export class PlanService {
       this.logger.warn('This plan not found', this.name);
       throw new NotFoundException('План с таким ID у этого пользователя не найден')
     }
-    return plan;
+    return {
+      title: plan.title,
+      analysis: plan.analysis,
+      recommendations: plan.recommendations,
+      budgetPlan: plan.budgetPlan,
+    };
   }
 
   async update(id: string, dto: MinusPlanDto, user: User) {
