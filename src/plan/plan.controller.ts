@@ -48,7 +48,7 @@ export class PlanController {
     return await this.planService.findOne(id, user);
   }
 
-  @Get('expenses/:id')
+  @Post('expenses/:id')
   @Authorization()
     @ApiOperation({
     summary: 'Получение подробной информации о расходах по плану по его ID'
