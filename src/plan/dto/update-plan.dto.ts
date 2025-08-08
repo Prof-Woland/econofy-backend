@@ -32,12 +32,14 @@ export class MinusPlanDto{
     @IsNumber()
     @IsNotEmpty()
     expenses: number;
+}
 
-    // @ApiProperty({
-    //     title: "Дата расхода",
-    //     example: "2024-07-26T10:30:00"
-    // })
-    // @IsDate()
-    // @IsNotEmpty()
-    // date: Date
+export class ExpensesDto{
+    @ApiProperty({
+        title: "Категория расхода",
+        example: "500"
+    })
+    @IsEnum(Categories)
+    @IsNotEmpty()
+    category: Categories;
 }

@@ -1,7 +1,7 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus } from '@nestjs/common';
 import { PlanService } from './plan.service';
 import { CreatePlanDto } from './dto/create-plan.dto';
-import { MinusPlanDto } from './dto/update-plan.dto';
+import { ExpensesDto, MinusPlanDto } from './dto/update-plan.dto';
 import { Authorization } from 'src/auth/decorators/authorization.decorator';
 import { Authorized } from 'src/auth/decorators/authorized.decorator';
 import { User } from 'prisma/generated/prisma/client';
@@ -46,6 +46,15 @@ export class PlanController {
   })
   async findOne(@Param('id') id: string, @Authorized() user: User) {
     return await this.planService.findOne(id, user);
+  }
+
+  @Get('expenses/:id')
+  @Authorization()
+    @ApiOperation({
+    summary: 'Получение подробной информации о расходах по плану по его ID'
+  })
+  async findExpenses(@Param('id') id: string, @Authorized() user: User, @Body() dto: ExpensesDto) {
+    return await this.planService.findExpenses(id, user, dto);
   }
 
   @Patch(':id')

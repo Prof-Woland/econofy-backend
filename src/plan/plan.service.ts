@@ -1,6 +1,6 @@
 import { ConflictException, ImATeapotException, Inject, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreatePlanDto } from './dto/create-plan.dto';
-import { MinusPlanDto } from './dto/update-plan.dto';
+import { ExpensesDto, MinusPlanDto } from './dto/update-plan.dto';
 import { ConfigService } from '@nestjs/config';
 import { AllLogger } from 'src/common/log/logger.log';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -287,8 +287,8 @@ export class PlanService {
   }
 
   async findOne(id: string, user: User) {
-    this.logger.log(`Try to get plan's description: ${user.id}`, this.name)
-    let expenseArray: object[] = []
+    this.logger.log(`Try to get plan's description: ${user.id}`, this.name);
+    let expenseArray: object[] = [];
     const plan = await this.prismaService.plan.findUnique({
       where:{
         id,
@@ -319,15 +319,16 @@ export class PlanService {
           category: categoryValues[element],
           planId: id
         },
-      })
+      });
       let expenses: number;
       if(expense._sum.expense){
         expenses = +expense._sum.expense;
       }
       else{
         expenses = 0;
-      }
-      expenseArray.push({title: categoryValues[element], spendingCount: expense._count._all, spendingMoney: expenses})
+      };
+
+      expenseArray.push({title: categoryValues[element], spendingCount: expense._count._all, spendingMoney: expenses});
     }
 
     this.logger.log(`Successful! ${user.id}`, this.name)
@@ -338,6 +339,67 @@ export class PlanService {
       recommendations: plan.recommendations,
       budgetPlan: plan.budgetPlan,
       expenses: expenseArray,
+    };
+  }
+
+  async findExpenses(id: string, user: User, dto: ExpensesDto) {
+    this.logger.log(`Try to get plan's expenses: ${user.id}`, this.name);
+    const category: string = dto.category;
+    const year = new Date().getFullYear();
+    const month = new Date().getMonth();
+    let endDay: number;
+    if(month === 1){
+      endDay = 28;
+    }
+    else if(month === 3 || month === 5 || month === 8 || month === 10){
+      endDay = 30;
+    }
+    else{
+      endDay = 31;
+    };
+    const firstDate = new Date(year, month, 1, 0, 0, 0, 0);
+    const lastDate = new Date(year, month, endDay, 23, 59, 59, 999);
+
+    const plan = await this.prismaService.plan.findUnique({
+      where:{
+        id,
+        userId: user.id,
+      },
+      select:{
+        title: true,
+        analysis: true,
+        recommendations: true,
+        budgetPlan: true,
+      }
+    })
+
+    if(!plan){
+      this.logger.warn('This plan not found', this.name);
+      throw new NotFoundException('План с таким ID у этого пользователя не найден')
+    };
+
+    const allExpenses = await this.prismaService.expenses.findMany({
+      where:{
+        planId: id,
+        category: category,
+        createdAt:{
+          gte: firstDate,
+          lte: lastDate,
+        }
+      },
+      select:{
+        id: true,
+        category: true,
+        expense: true,
+        createdAt: true,
+      }
+    })
+
+    this.logger.log(`Successful! ${user.id}`, this.name)
+    return {
+      id,
+      category: category,
+      expenses: allExpenses,
     };
   }
 
@@ -384,6 +446,7 @@ export class PlanService {
   }
 
   async remove(id: string, user: User) {
+    this.logger.log(`Try to delete plan: ${user.id}`, this.name)
     const extend = await this.prismaService.plan.findUnique({
       where:{
         id,
