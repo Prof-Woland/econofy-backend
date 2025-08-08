@@ -37,7 +37,7 @@ export class MinusPlanDto{
 export class ExpensesDto{
     @ApiProperty({
         title: "Категория расхода",
-        example: "500"
+        example: "Косметика"
     })
     @IsEnum(Categories)
     @IsNotEmpty()
