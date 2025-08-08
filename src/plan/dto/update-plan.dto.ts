@@ -41,5 +41,5 @@ export class ExpensesDto{
         example: "Косметика"
     })
     @IsNotEmpty()
-    params: IPlanExpenses
+    category: string
 }

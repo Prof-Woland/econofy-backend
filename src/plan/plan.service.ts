@@ -344,7 +344,7 @@ export class PlanService {
 
   async findExpenses(id: string, user: User, dto: ExpensesDto) {
     this.logger.log(`Try to get plan's expenses: ${user.id}`, this.name);
-    const category: string = dto.params.category;
+    const category: string = dto.category;
     const year = new Date().getFullYear();
     const month = new Date().getMonth();
     let endDay: number;
