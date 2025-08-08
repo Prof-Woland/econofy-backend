@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsEnum, IsNotEmpty, IsNumber } from "class-validator";
+import { IsDate, IsEnum, IsJSON, IsNotEmpty, IsNumber } from "class-validator";
+import { IPlanExpenses } from "../interfaces/Plan.interface";
 
 export enum Categories{
       STORE_AND_HOUSEHOLD = "Продукты, быт. товары",
@@ -39,7 +40,6 @@ export class ExpensesDto{
         title: "Категория расхода",
         example: "Косметика"
     })
-    @IsEnum(Categories)
     @IsNotEmpty()
-    category: Categories;
+    params: IPlanExpenses
 }

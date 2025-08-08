@@ -14,3 +14,7 @@ export interface PlanToCache{
     budgetPlan: string
     term: string
 }
+
+export interface IPlanExpenses{
+    category: string
+}
